@@ -5,6 +5,7 @@ import Container from "../src/components/Container";
 import Header from "../src/components/Header";
 import { Provider } from "react-redux";
 import { store } from "../src/redux/Store";
+import TermOfServices from "../src/components/termsOfServices/TermOfServices";
 import Snackbars from "../src/components/notification/Snackbars";
 
 export default function Home() {
@@ -21,6 +22,7 @@ export default function Home() {
           </Head>
 
           <main>
+            <TermOfServices />
             <Container>
               <>
                 <Snackbars />
