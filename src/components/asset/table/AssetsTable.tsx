@@ -1,53 +1,24 @@
 import { useQuery } from "@tanstack/react-query";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { getAssetsForAddress } from "../../internal/asset/functionality/fetch";
-import {
-  convertFromAtto,
-  formatNumber,
-} from "../../internal/asset/style/format";
-import Button from "../common/Button";
 import MessageTable from "./MessageTable";
-import ModalAsset from "./modals/ModalAsset";
-import { BigNumber } from "ethers";
 import { useSelector } from "react-redux";
-import { StoreType } from "../../redux/Store";
-import Switch from "./Switch";
+import Image from "next/image";
+import { BigNumber } from "ethers";
+import { DataModal, EmptyDataModal } from "../modals/types";
+import { StoreType } from "../../../redux/Store";
+import { ERC20BalanceResponse, TableData } from "./types";
+import { getAssetsForAddress } from "../../../internal/asset/functionality/fetch";
+import Switch from "../utils/Switch";
+import { convertAndFormat } from "../../../internal/asset/style/format";
+import Button from "../../common/Button";
+import ModalAsset from "../modals/ModalAsset";
 
-const DataModal = {
-  token: "",
-  address: "",
-  amount: 0,
-  title: "",
-  network: "",
-};
-
-export type DataModalType = {
-  token: string;
-  address: string;
-  amount: number;
-  title: string;
-  network: string;
-};
-
-export type DataBalance = {
-  name: string;
-  cosmosBalance: string;
-  decimals: string;
-  description: string;
-  erc20Balance: string;
-  symbol: string;
-  tokenName: string;
-};
-
-export type BalanceType = {
-  balance: DataBalance[];
-};
 const AssetsTable = () => {
   const [show, setShow] = useState(false);
 
   const close = useCallback(() => setShow(false), []);
 
-  const [modalValues, setModalValues] = useState(DataModal);
+  const [modalValues, setModalValues] = useState<DataModal>(EmptyDataModal);
 
   const value = useSelector((state: StoreType) => state.wallet.value);
 
@@ -60,20 +31,41 @@ const AssetsTable = () => {
     setHexAddress(value.evmosAddressEthFormat);
   }, [value]);
 
-  const { data, error, isLoading } = useQuery<BalanceType, Error>({
+  const { data, error, isLoading } = useQuery<ERC20BalanceResponse, Error>({
     queryKey: ["assets", address, hexAddress],
     queryFn: () => getAssetsForAddress(address, hexAddress),
   });
 
   const [hideZeroBalance, setHideBalance] = useState(false);
 
+  const newData = useMemo<TableData[]>(() => {
+    const temp: TableData[] = [];
+    data?.balance.map((item) => {
+      temp.push({
+        name: item.name,
+        cosmosBalance: BigNumber.from(item.cosmosBalance),
+        decimals: parseInt(item.decimals, 10),
+        description: item.description,
+        erc20Balance: BigNumber.from(item.erc20Balance),
+        symbol: item.symbol,
+        tokenName: item.tokenName,
+      });
+    });
+    return temp;
+  }, [data]);
+
   const tableData = useMemo(() => {
-    return data?.balance.filter((asset) =>
-      hideZeroBalance
-        ? asset.erc20Balance !== "0" || asset.cosmosBalance !== "0"
-        : asset
-    );
-  }, [data, hideZeroBalance]);
+    return newData?.filter((asset) => {
+      if (
+        hideZeroBalance === true &&
+        asset.erc20Balance.eq(BigNumber.from("0")) &&
+        asset.cosmosBalance.eq(BigNumber.from("0"))
+      ) {
+        return false;
+      }
+      return true;
+    });
+  }, [newData, hideZeroBalance]);
 
   return (
     <>
@@ -117,23 +109,17 @@ const AssetsTable = () => {
               </>
             </MessageTable>
           )}
-          {tableData?.map((item: DataBalance, index: number) => {
-            const coinCosmosBalance = BigNumber.from(
-              item?.cosmosBalance || "0"
-            );
-            const convertCosmosBalance = String(
-              convertFromAtto(coinCosmosBalance, item.decimals)
-            );
-
-            const coinERC20Balance = BigNumber.from(item.erc20Balance || "0");
-            const convertERC20Balance = String(
-              convertFromAtto(coinERC20Balance, item.decimals)
-            );
+          {tableData?.map((item: TableData, index: number) => {
             return (
               <tr className="" key={index}>
                 <td>
                   <div className="flex items-center space-x-5">
-                    {/*TODO: add {item.icon} */}
+                    <Image
+                      src={`/tokens/${item.symbol.toLocaleLowerCase()}.png`}
+                      alt={item.symbol}
+                      width={35}
+                      height={35}
+                    />
                     <div className="flex flex-col items-start ">
                       <span className="font-bold">{item.symbol}</span>
                       <span className="text-sm text-darkGray5">
@@ -145,32 +131,23 @@ const AssetsTable = () => {
                 <td>
                   <div className="flex flex-col items-start uppercase">
                     <span className="font-bold">
-                      {/* wallet ? : "0" */}
-                      {formatNumber(
-                        convertCosmosBalance,
-                        undefined,
-                        "standard"
-                      )}
+                      {convertAndFormat(item.cosmosBalance, item.decimals)}
                     </span>
                     <span className="text-sm text-darkGray5">
                       {/*TODO: get value from backend  */}$
-                      {/* wallet ? : "0" */}
-                      {formatNumber(Number(convertCosmosBalance))}
+                      {convertAndFormat(item.cosmosBalance, item.decimals)}
                     </span>
                   </div>
                 </td>
                 <td>
                   <div className="flex flex-col items-start uppercase">
                     <span className="font-bold">
-                      {/* wallet ? : "0" */}
-
-                      {formatNumber(convertERC20Balance, undefined, "standard")}
+                      {convertAndFormat(item.erc20Balance, item.decimals)}
                       {item.symbol.toUpperCase() === "EVMOS" ? " WEVMOS" : ""}
                     </span>
                     <span className="text-sm text-darkGray5">
-                      {/*TODO: get value from backend  */}$
-                      {/* wallet ? : "0" */}
-                      {formatNumber(Number(convertERC20Balance))}
+                      {/*TODO: get value from backend  */}
+                      {convertAndFormat(item.erc20Balance, item.decimals)}
                     </span>
                   </div>
                 </td>
@@ -182,9 +159,14 @@ const AssetsTable = () => {
                         setModalValues({
                           token: item.symbol,
                           address: address,
-                          amount: Number(item.cosmosBalance),
+                          amount: item.cosmosBalance,
                           title: "Deposit",
                           network: "EVMOS",
+                          decimals: item?.decimals,
+                          feeDenom: "aevmos",
+                          pubkey: value.evmosPubkey,
+                          fee: BigNumber.from("1"),
+                          erc20Balance: item.erc20Balance,
                         });
                       }}
                     >
@@ -196,9 +178,14 @@ const AssetsTable = () => {
                         setModalValues({
                           token: item.symbol,
                           address: address,
-                          amount: Number(item.cosmosBalance),
+                          amount: item?.cosmosBalance,
+                          decimals: item?.decimals,
+                          fee: BigNumber.from("1"),
+                          feeDenom: "aevmos",
                           title: "Withdraw",
                           network: "EVMOS",
+                          pubkey: value.evmosPubkey,
+                          erc20Balance: item.erc20Balance,
                         });
                       }}
                     >
@@ -210,9 +197,14 @@ const AssetsTable = () => {
                         setModalValues({
                           token: item.symbol,
                           address: address,
-                          amount: Number(item.cosmosBalance),
+                          amount: item.cosmosBalance,
+                          decimals: item?.decimals,
+                          feeDenom: "aevmos",
                           title: "Convert",
                           network: "EVMOS",
+                          pubkey: value.evmosPubkey,
+                          fee: BigNumber.from("1"),
+                          erc20Balance: item.erc20Balance,
                         });
                       }}
                     >

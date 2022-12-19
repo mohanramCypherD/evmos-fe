@@ -1,25 +1,24 @@
-import { getReservedForFee } from "../../../internal/asset/style/format";
-import KeplrIcon from "../../common/images/icons/KeplrIcon";
-import MetamaskIcon from "../../common/images/icons/MetamaskIcon";
-import ConfirmButton from "../ConfirmButton";
-import GetButtonAddress from "../GetAddressButton";
-import Arrow from "./common/Arrow";
-import FromContainer from "./common/FromContainer";
-import ToContainer from "./common/ToContainer";
+import { getReservedForFeeText } from "../../../../internal/asset/style/format";
+import ConfirmButton from "../../../common/ConfirmButton";
+import KeplrIcon from "../../../common/images/icons/KeplrIcon";
+import MetamaskIcon from "../../../common/images/icons/MetamaskIcon";
+import GetButtonAddress from "../../utils/GetAddressButton";
+import Arrow from "../common/Arrow";
+import FromContainer from "../common/FromContainer";
+import ToContainer from "../common/ToContainer";
+import { ModalProps } from "./types";
 
-const Withdraw = ({
-  token,
-  address,
-  amount,
-  title,
-  network,
-}: {
+export interface IBCChainParams {
+  sender: string;
+  receiver: string;
+  amount: string;
+  srcChain: string;
+  dstChain: string;
   token: string;
-  address: string;
-  amount: number;
-  title: string;
-  network: string;
-}) => {
+  gas?: number;
+}
+
+const Withdraw = ({ values }: ModalProps) => {
   return (
     <div className="text-darkGray3">
       <p className="text-sm max-w-[500px] pb-3 italic">
@@ -27,16 +26,24 @@ const Withdraw = ({
         must be converted back to IBC coins before being transferable to other
         IBC chains
       </p>
-      <div className="bg-skinTan px-8 py-4 rounded-lg space-y-3 ">
-        <FromContainer token={token} address={address} amount={amount} />
+      <div className="bg-skinTan px-8 py-4 rounded-lg space-y-2 ">
+        <FromContainer
+          token={values.token}
+          address={values.address}
+          amount={values.amount}
+          fee={values.fee}
+          decimals={values.decimals}
+          feeDenom={values.feeDenom}
+          img={values.imgFrom}
+        />
         <div className="text-xs font-bold opacity-80">
-          {getReservedForFee(amount, token, network)}{" "}
+          {getReservedForFeeText(values.fee, values.feeDenom, values.network)}
         </div>
       </div>
       <Arrow />
 
       <div className="bg-skinTan px-8 py-4 rounded-lg space-y-5 mb-8">
-        <ToContainer token={token} />
+        <ToContainer token={values.tokenTo} img={values.imgTo} />
 
         <div className="flex items-center space-x-5">
           <GetButtonAddress
@@ -65,10 +72,9 @@ const Withdraw = ({
       </div>
 
       <ConfirmButton
-        text={title}
+        text={values.title}
         onClick={() => {
-          // TODO: implement function
-          throw "Not implemented!";
+          throw "not implemented";
         }}
       />
     </div>
