@@ -19,3 +19,13 @@ export const METAMASK_SUCCESS_MESSAGES = {
   Connected: "Successfully connected to Metamask",
   Disconnected: "Disconnected from Metamask",
 } as const;
+
+export const KEPLR_ERRORS = {
+  ExtensionNotFound: "Could not find Keplr Extension",
+  ConnectionError: "Could not connect to Evmos and Osmosis Network",
+} as const;
+
+export const KEPLR_SUCCESS_MESSAGES = {
+  Connected: "Successfully connected to Keplr",
+  Disconnected: "Disconnected from Keplr",
+} as const;
