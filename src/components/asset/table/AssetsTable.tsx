@@ -102,7 +102,7 @@ const AssetsTable = () => {
               </MessageTable>
             )}
 
-            {tableData?.length === 0 && (
+            {!isLoading && !error && tableData?.length === 0 && (
               <MessageTable>
                 <>
                   {/* add exclamation icon */}
@@ -112,7 +112,13 @@ const AssetsTable = () => {
             )}
             {tableData?.map((item: TableData, index: number) => {
               return (
-                <tr className="" key={index}>
+                <tr
+                  className={`${
+                    tableData?.length > 2 ? "asset" : "assetOneItem"
+                  }`}
+                  key={index}
+                >
+                  {" "}
                   <td>
                     <div className="flex items-center space-x-5">
                       <Image
