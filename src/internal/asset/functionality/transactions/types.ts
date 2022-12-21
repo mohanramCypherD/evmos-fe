@@ -39,12 +39,10 @@ export interface Message {
   srcChain: string;
   token: string;
 }
+
 export interface TxConvert {
   transaction: Transaction;
   message: Message;
-}
-export interface ErrorTx {
-  error: string;
 }
 
 export interface IBCChainParams {
