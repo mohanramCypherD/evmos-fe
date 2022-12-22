@@ -1,6 +1,5 @@
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { CURRENT_COMMIT_HASH } from "./constants";
 
 const TwitterIcon = dynamic(() => import("./icons/Twitter"));
 const TelegramIcon = dynamic(() => import("./icons/Telegram"));
@@ -10,7 +9,7 @@ const CommonWealthIcon = dynamic(() => import("./icons/CommonWealth"));
 
 const Footer = () => {
   return (
-    <footer className=" mb-10 flex lg:justify-between text-pearl w-full mt-10 flex-col items-center space-y-2">
+    <footer className=" mb-10 flex xl:justify-between text-pearl w-full mt-10 flex-col items-center space-y-2">
       <div className="flex items-center space-x-5">
         <Link
           target="_blank"
@@ -54,7 +53,6 @@ const Footer = () => {
         </Link>
       </div>
       <div className="flex items-center space-x-5">
-        <p>Version:{CURRENT_COMMIT_HASH}</p>
         <p>
           <Link
             target="_blank"
