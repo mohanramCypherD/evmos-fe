@@ -7,7 +7,9 @@ export function getReservedForFeeText(
   token: string,
   network: string
 ) {
-  return `${amount.toString()} ${token} is reserved for transaction fees on the ${network} network.`;
+  return `${convertAndFormat(
+    amount
+  )} ${token} is reserved for transaction fees on the ${network} network.`;
 }
 
 export function safeSubstraction(amount: BigNumber, fee: BigNumber) {
@@ -81,4 +83,9 @@ export function truncateNumber(number: string) {
   } else {
     return parseFloat(number);
   }
+}
+
+export function createBigNumber(value: string) {
+  // TODO: check if string has only numbers
+  return BigNumber.from(value);
 }
