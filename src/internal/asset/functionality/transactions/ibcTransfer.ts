@@ -1,10 +1,9 @@
 import { BigNumber, utils } from "ethers";
 import {
   EVMOS_BACKEND,
-  EVMOS_CHAIN,
+  EVMOS_NETWORK_FOR_BACKEND,
 } from "../../../wallet/functionality/networkConfig";
-import { broadcastEip712ToBackend } from "../../../wallet/functionality/signing";
-import { signBackendTx } from "../../../wallet/functionality/signing/genericSigner";
+import { Signer } from "../../../wallet/functionality/signing/genericSigner";
 import { IBCChainParams, IBCTransferResponse } from "./types";
 
 const feeAmountForWithdraw = BigNumber.from("200000000000000000");
@@ -82,24 +81,23 @@ export async function executeIBC(
 
   //  TODO: if value is bigger than amount, return error
   const tx = await ibcTransferBackendCall(pubkey, address, params);
-  console.log(tx);
   if (tx.error === true || tx.data === null) {
     // Error generating the transaction
     return { error: true, message: tx.message, title: "Error generating tx" };
   }
 
-  const sign = await signBackendTx(address, tx.data, extension);
-  if (sign.result === false || sign.signature === null) {
+  const signer = new Signer();
+  const sign = await signer.signBackendTx(
+    address,
+    tx.data,
+    EVMOS_NETWORK_FOR_BACKEND,
+    extension
+  );
+  if (sign.result === false) {
     return { error: true, message: sign.message, title: "Error signing tx" };
   }
 
-  const broadcastResponse = await broadcastEip712ToBackend(
-    EVMOS_CHAIN.chainId,
-    address,
-    sign.signature,
-    tx.data.legacyAmino.body,
-    tx.data.legacyAmino.authInfo
-  );
+  const broadcastResponse = await signer.broadcastTxToBackend();
 
   if (broadcastResponse.error === true) {
     // TODO: add sentry call here!
