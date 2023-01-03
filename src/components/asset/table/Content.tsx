@@ -5,7 +5,10 @@ import {
   amountToDolars,
   convertAndFormat,
 } from "../../../internal/asset/style/format";
-import { METAMASK_KEY } from "../../../internal/wallet/functionality/wallet";
+import {
+  KEPLR_KEY,
+  METAMASK_KEY,
+} from "../../../internal/wallet/functionality/wallet";
 const Button = dynamic(() => import("../../common/Button"));
 const ExternalLinkIcon = dynamic(
   () => import("../../common/images/icons/ExternalLink")
@@ -17,6 +20,7 @@ import { StoreType } from "../../../redux/Store";
 import Convert from "../modals/transactions/Convert";
 import Withdraw from "../modals/transactions/Withdraw";
 import Deposit from "../modals/transactions/Deposit";
+import { EVMOS_SYMBOL } from "../../../internal/wallet/functionality/networkConfig";
 
 const Content = ({
   tableData,
@@ -104,7 +108,10 @@ const Content = ({
                   </Button>
                 ) : (
                   <Button
-                    disabled={value.extensionName === METAMASK_KEY}
+                    disabled={
+                      value.extensionName === METAMASK_KEY ||
+                      item.symbol === EVMOS_SYMBOL
+                    }
                     onClick={() => {
                       setShow(true);
                       setModalContent(
@@ -144,6 +151,7 @@ const Content = ({
                   </Button>
                 ) : (
                   <Button
+                    disabled={item.symbol === EVMOS_SYMBOL}
                     onClick={() => {
                       setShow(true);
                       setModalContent(
@@ -164,6 +172,10 @@ const Content = ({
                   </Button>
                 )}
                 <Button
+                  disabled={
+                    value.extensionName === KEPLR_KEY &&
+                    item.symbol === EVMOS_SYMBOL
+                  }
                   onClick={() => {
                     setShow(true);
                     setModalContent(
