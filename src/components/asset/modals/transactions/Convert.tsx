@@ -181,6 +181,7 @@ const Convert = ({
                 type: res.error === true ? "error" : "success",
               })
             );
+
             setShow(false);
           }}
           text="Convert"
