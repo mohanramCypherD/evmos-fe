@@ -51,7 +51,7 @@ const Withdraw = ({
     amount: item.cosmosBalance,
   });
   useEffect(() => {
-    if (isERC20Selected) {
+    if (!isERC20Selected) {
       setTypeSelected({
         amount: item.cosmosBalance,
       });
