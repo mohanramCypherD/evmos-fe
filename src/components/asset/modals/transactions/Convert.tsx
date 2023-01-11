@@ -18,6 +18,12 @@ import { WEVMOS_CONTRACT_ADDRESS } from "../constants";
 import { WEVMOS } from "./contracts/abis/WEVMOS/WEVMOS";
 import WETH_ABI from "./contracts/abis/WEVMOS/WEVMOS.json";
 import { useContract } from "./contracts/useContract";
+import { EVMOS_SYMBOL } from "../../../../internal/wallet/functionality/networkConfig";
+import { KEPLR_NOTIFICATIONS } from "../../../../internal/wallet/functionality/errors";
+import {
+  BROADCASTED_NOTIFICATIONS,
+  GENERATING_TX_NOTIFICATIONS,
+} from "../../../../internal/asset/functionality/transactions/errors";
 import { Token } from "../../../../internal/wallet/functionality/metamask/metamaskHelpers";
 import AddTokenMetamask from "./AddTokenMetamask";
 
@@ -46,7 +52,7 @@ const Convert = ({
     amount: item.cosmosBalance,
     from: "IBC Coin",
     to: "ERC-20",
-    token: "EVMOS",
+    token: EVMOS_SYMBOL,
   });
 
   useEffect(() => {
@@ -55,7 +61,7 @@ const Convert = ({
         amount: item.cosmosBalance,
         from: "IBC Coin",
         to: "ERC-20",
-        token: "EVMOS",
+        token: EVMOS_SYMBOL,
       });
     } else {
       setTypeSelected({
@@ -84,7 +90,7 @@ const Convert = ({
           <FromContainer
             fee={{
               fee: BigNumber.from("300000000000000000"),
-              feeDenom: "EVMOS",
+              feeDenom: EVMOS_SYMBOL,
               feeBalance: feeBalance,
               feeDecimals: 18,
             }}
@@ -96,7 +102,7 @@ const Convert = ({
             input={{ value: inputValue, setInputValue, confirmClicked }}
             style={{
               tokenTo:
-                item.symbol === "EVMOS" ? typeSelected.token : item.symbol,
+                item.symbol === EVMOS_SYMBOL ? typeSelected.token : item.symbol,
               address,
               img: `/tokens/${item.symbol.toLowerCase()}.png`,
               text: typeSelected.from,
@@ -115,8 +121,8 @@ const Convert = ({
           <div className="text-xs font-bold opacity-80">
             {getReservedForFeeText(
               BigNumber.from("300000000000000000"),
-              "EVMOS",
-              "EVMOS"
+              EVMOS_SYMBOL,
+              EVMOS_SYMBOL
             )}
           </div>
         </div>
@@ -138,51 +144,33 @@ const Convert = ({
                 addSnackbar({
                   id: 0,
                   text: "Wallet not connected",
-                  subtext:
-                    "Can not create a transaction without a wallet connected!",
+                  subtext: KEPLR_NOTIFICATIONS.RequestRejectedSubtext,
                   type: "error",
                 })
               );
               setShow(false);
               return;
             }
-
+            const amount = parseUnits(
+              inputValue,
+              BigNumber.from(item.decimals)
+            );
             if (
               inputValue === undefined ||
               inputValue === null ||
-              inputValue === ""
+              inputValue === "" ||
+              amount.gt(typeSelected.amount)
             ) {
-              // TODO: Add this validation to the input onchange
-
               return;
             }
 
-            let amount = "";
-            try {
-              amount = parseUnits(
-                inputValue,
-                BigNumber.from(item.decimals)
-              ).toString();
-            } catch (e) {
-              dispatch(
-                addSnackbar({
-                  id: 0,
-                  text: "Wrong params",
-                  subtext: "Amount can only be a positive number",
-                  type: "error",
-                })
-              );
-              // TODO: 0.0000001 too many decimals, now appears the positive number error
-              setShow(false);
-              return;
-            }
-            if (item.symbol !== "EVMOS") {
+            if (item.symbol !== EVMOS_SYMBOL) {
               const params: ConvertMsg = {
                 token: item.symbol,
-                amount,
+                amount: amount.toString(),
                 addressEth: wallet.evmosAddressEthFormat,
                 addressCosmos: wallet.evmosAddressCosmosFormat,
-                srcChain: "EVMOS",
+                srcChain: EVMOS_SYMBOL,
               };
               setDisabled(true);
               const res = await executeConvert(
@@ -204,13 +192,51 @@ const Convert = ({
               );
             } else {
               if (isERC20Selected) {
-                await WEVMOSContract.withdraw(amount);
-                // TODO: add snackbar
+                try {
+                  const res = await WEVMOSContract.withdraw(amount);
+                  dispatch(
+                    addSnackbar({
+                      id: 0,
+                      text: BROADCASTED_NOTIFICATIONS.SuccessTitle,
+                      subtext: res.hash,
+                      type: "success",
+                    })
+                  );
+                } catch (e) {
+                  // TODO: Add Sentry here!
+                  dispatch(
+                    addSnackbar({
+                      id: 0,
+                      text: GENERATING_TX_NOTIFICATIONS.ErrorGeneratingTx,
+                      subtext: "",
+                      type: "error",
+                    })
+                  );
+                }
               } else {
-                await WEVMOSContract.deposit({
-                  value: amount,
-                });
-                // TODO: add snackbar
+                try {
+                  const res = await WEVMOSContract.deposit({
+                    value: amount,
+                  });
+                  dispatch(
+                    addSnackbar({
+                      id: 0,
+                      text: BROADCASTED_NOTIFICATIONS.SuccessTitle,
+                      subtext: res.hash,
+                      type: "success",
+                    })
+                  );
+                } catch (e) {
+                  // TODO: Add Sentry here!
+                  dispatch(
+                    addSnackbar({
+                      id: 0,
+                      text: GENERATING_TX_NOTIFICATIONS.ErrorGeneratingTx,
+                      subtext: "",
+                      type: "error",
+                    })
+                  );
+                }
               }
             }
             setShow(false);

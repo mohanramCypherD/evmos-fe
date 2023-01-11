@@ -23,12 +23,22 @@ import {
   Token,
 } from "../../../../internal/wallet/functionality/metamask/metamaskHelpers";
 import { ethToEvmos } from "@evmos/address-converter";
-import { EVMOS_CHAIN } from "../../../../internal/wallet/functionality/networkConfig";
-import { BROADCASTED_NOTIFICATIONS } from "../../../../internal/asset/functionality/transactions/errors";
+import {
+  EVMOS_CHAIN,
+  EVMOS_SYMBOL,
+} from "../../../../internal/wallet/functionality/networkConfig";
+import {
+  BALANCE_NOTIFICATIONS,
+  BROADCASTED_NOTIFICATIONS,
+} from "../../../../internal/asset/functionality/transactions/errors";
 import {
   snackbarExecutedTx,
   snackbarWaitingBroadcast,
 } from "../../../../internal/asset/style/format";
+import {
+  KEPLR_NOTIFICATIONS,
+  METAMASK_NOTIFICATIONS,
+} from "../../../../internal/wallet/functionality/errors";
 import AddTokenMetamask from "./AddTokenMetamask";
 
 const Deposit = ({
@@ -62,9 +72,8 @@ const Deposit = ({
         dispatch(
           addSnackbar({
             id: 0,
-            text: "Could not get information from Keplr",
-            subtext:
-              "Please unlock the extension and allow the app to access your wallet address",
+            text: KEPLR_NOTIFICATIONS.ErrorTitle,
+            subtext: KEPLR_NOTIFICATIONS.RequestRejectedSubtext,
             type: "error",
           })
         );
@@ -82,7 +91,7 @@ const Deposit = ({
         dispatch(
           addSnackbar({
             id: 0,
-            text: "Error getting balance from external chain",
+            text: BALANCE_NOTIFICATIONS.ErrorGetBalanceExtChain,
             subtext: "",
             type: "error",
           })
@@ -112,7 +121,6 @@ const Deposit = ({
         <div className="bg-skinTan px-8 py-4 rounded-lg space-y-3 ">
           <FromContainer
             fee={{
-              // modificar fee
               fee: BigNumber.from("5000"),
               feeDenom: item.symbol,
               feeBalance: feeBalance,
@@ -168,9 +176,8 @@ const Deposit = ({
                     dispatch(
                       addSnackbar({
                         id: 0,
-                        text: "Could not get information from Keplr",
-                        subtext:
-                          "Please unlock the extension and allow the app to access your wallet address",
+                        text: KEPLR_NOTIFICATIONS.ErrorTitle,
+                        subtext: KEPLR_NOTIFICATIONS.RequestRejectedSubtext,
                         type: "error",
                       })
                     );
@@ -190,9 +197,8 @@ const Deposit = ({
                     dispatch(
                       addSnackbar({
                         id: 0,
-                        text: "Could not get information from Metamask",
-                        subtext:
-                          "Please unlock the extension and allow the app to access your wallet address",
+                        text: METAMASK_NOTIFICATIONS.ErrorTitle,
+                        subtext: KEPLR_NOTIFICATIONS.RequestRejectedSubtext,
                         type: "error",
                       })
                     );
@@ -214,46 +220,29 @@ const Deposit = ({
                 addSnackbar({
                   id: 0,
                   text: "Wallet not connected",
-                  subtext:
-                    "Can not create a transaction without a wallet connected!",
+                  subtext: KEPLR_NOTIFICATIONS.RequestRejectedSubtext,
                   type: "error",
                 })
               );
               setShow(false);
               return;
             }
-
+            const amount = parseUnits(
+              inputValue,
+              BigNumber.from(item.decimals)
+            );
             if (
               inputValue === undefined ||
               inputValue === null ||
               inputValue === "" ||
               addressTo === undefined ||
               addressTo === null ||
-              addressTo === ""
+              addressTo === "" ||
+              amount.gt(balance)
             ) {
-              // TODO: Add this validation to the input onchange
-
               return;
             }
 
-            let amount = "";
-            try {
-              amount = parseUnits(
-                inputValue,
-                BigNumber.from(item.decimals)
-              ).toString();
-            } catch (e) {
-              dispatch(
-                addSnackbar({
-                  id: 0,
-                  text: "Wrong params",
-                  subtext: "Amount can only be a positive number",
-                  type: "error",
-                })
-              );
-              setShow(false);
-              return;
-            }
             const keplrAddress = await getKeplrAddressByChain(item.chainId);
             if (keplrAddress === null) {
               return;
@@ -266,9 +255,9 @@ const Deposit = ({
             const params: IBCChainParams = {
               sender: keplrAddress,
               receiver: addressEvmos,
-              amount,
+              amount: amount.toString(),
               srcChain: item.chainIdentifier,
-              dstChain: "EVMOS",
+              dstChain: EVMOS_SYMBOL,
               token: item.symbol,
             };
             setDisabled(true);
@@ -277,7 +266,8 @@ const Deposit = ({
               keplrAddress,
               params,
               item.chainIdentifier.toUpperCase(),
-              wallet.extensionName
+              wallet.extensionName,
+              item.prefix
             );
 
             dispatch(

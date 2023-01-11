@@ -20,9 +20,13 @@ import Arrow from "../common/Arrow";
 import ErrorMessage from "../common/ErrorMessage";
 import FromContainer from "../common/FromContainer";
 import ToContainer from "../common/ToContainer";
-import { BROADCASTED_NOTIFICATIONS } from "../../../../internal/asset/functionality/transactions/errors";
+import {
+  BROADCASTED_NOTIFICATIONS,
+  MODAL_NOTIFICATIONS,
+} from "../../../../internal/asset/functionality/transactions/errors";
 import { EVMOS_SYMBOL } from "../../../../internal/wallet/functionality/networkConfig";
 import Tabs from "../common/Tabs";
+import { KEPLR_NOTIFICATIONS } from "../../../../internal/wallet/functionality/errors";
 import { Token } from "../../../../internal/wallet/functionality/metamask/metamaskHelpers";
 import AddTokenMetamask from "./AddTokenMetamask";
 
@@ -47,7 +51,7 @@ const Withdraw = ({
   const dispatch = useDispatch();
 
   const fee = BigNumber.from("4600000000000000");
-  const feeDenom = "EVMOS";
+  const feeDenom = EVMOS_SYMBOL;
   const [isERC20Selected, setIsERC20Selected] = useState(false);
   const [typeSelected, setTypeSelected] = useState({
     amount: item.cosmosBalance,
@@ -131,7 +135,7 @@ const Withdraw = ({
               />
             </div>
             {confirmClicked && addressTo === "" && (
-              <ErrorMessage text="Address can not be empty" />
+              <ErrorMessage text={MODAL_NOTIFICATIONS.ErrorAddressEmpty} />
             )}
             <h6 className="italic text-sm">
               IMPORTANT: Transferring to an incorrect address will result in
@@ -153,9 +157,8 @@ const Withdraw = ({
                     dispatch(
                       addSnackbar({
                         id: 0,
-                        text: "Could not get information from Keplr",
-                        subtext:
-                          "Please unlock the extension and allow the app to access your wallet address",
+                        text: KEPLR_NOTIFICATIONS.ErrorTitle,
+                        subtext: KEPLR_NOTIFICATIONS.RequestRejectedSubtext,
                         type: "error",
                       })
                     );
@@ -177,51 +180,34 @@ const Withdraw = ({
                 addSnackbar({
                   id: 0,
                   text: "Wallet not connected",
-                  subtext:
-                    "Can not create a transaction without a wallet connected!",
+                  subtext: KEPLR_NOTIFICATIONS.RequestRejectedSubtext,
                   type: "error",
                 })
               );
               setShow(false);
               return;
             }
-
+            const amount = parseUnits(
+              inputValue,
+              BigNumber.from(item.decimals)
+            );
             if (
               inputValue === undefined ||
               inputValue === null ||
               inputValue === "" ||
               addressTo === undefined ||
               addressTo === null ||
-              addressTo === ""
+              addressTo === "" ||
+              amount.gt(typeSelected.amount)
             ) {
-              // TODO: Add this validation to the input onchange
-
               return;
             }
 
-            let amount = "";
-            try {
-              amount = parseUnits(
-                inputValue,
-                BigNumber.from(item.decimals)
-              ).toString();
-            } catch (e) {
-              dispatch(
-                addSnackbar({
-                  id: 0,
-                  text: "Wrong params",
-                  subtext: "Amount can only be a positive number",
-                  type: "error",
-                })
-              );
-              setShow(false);
-              return;
-            }
             const params: IBCChainParams = {
               sender: address,
               receiver: addressTo,
-              amount,
-              srcChain: "EVMOS",
+              amount: amount.toString(),
+              srcChain: EVMOS_SYMBOL,
               dstChain: item.chainIdentifier,
               token: item.symbol,
             };
@@ -232,7 +218,8 @@ const Withdraw = ({
               params,
               feeBalance,
               wallet.extensionName,
-              isERC20Selected
+              isERC20Selected,
+              item.prefix
             );
 
             dispatch(

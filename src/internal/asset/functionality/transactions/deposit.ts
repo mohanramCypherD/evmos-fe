@@ -1,5 +1,12 @@
 import { BigNumber, utils } from "ethers";
 import { Signer } from "../../../wallet/functionality/signing/genericSigner";
+import { checkFormatAddress } from "../../style/format";
+import {
+  BROADCASTED_NOTIFICATIONS,
+  GENERATING_TX_NOTIFICATIONS,
+  MODAL_NOTIFICATIONS,
+  SIGNING_NOTIFICATIONS,
+} from "./errors";
 import { ibcTransferBackendCall } from "./ibcTransfer";
 import { IBCChainParams } from "./types";
 
@@ -8,25 +15,42 @@ export async function executeDeposit(
   address: string,
   params: IBCChainParams,
   identifier: string,
-  extension: string
+  extension: string,
+  prefix: string
 ) {
   if (utils.parseEther(params.amount).lte(BigNumber.from("0"))) {
     return {
       error: true,
-      message: "Amount to send must be bigger than 0",
-      title: "Wrong params",
+      message: MODAL_NOTIFICATIONS.ErrorZeroAmountSubtext,
+      title: MODAL_NOTIFICATIONS.ErrorAmountTitle,
+      txHash: "",
+    };
+  }
+  if (!checkFormatAddress(params.sender, prefix)) {
+    return {
+      error: true,
+      message: MODAL_NOTIFICATIONS.ErrorAddressSubtext,
+      title: MODAL_NOTIFICATIONS.ErrorAddressTitle,
       txHash: "",
     };
   }
 
-  //  TODO: if value is bigger than amount, return error
+  if (!checkFormatAddress(params.receiver, "evmos")) {
+    return {
+      error: true,
+      message: MODAL_NOTIFICATIONS.ErrorAddressSubtext,
+      title: MODAL_NOTIFICATIONS.ErrorAddressTitle,
+      txHash: "",
+    };
+  }
+
   const tx = await ibcTransferBackendCall(pubkey, address, params);
   if (tx.error === true || tx.data === null) {
     // Error generating the transaction
     return {
       error: true,
       message: tx.message,
-      title: "Error generating tx",
+      title: GENERATING_TX_NOTIFICATIONS.ErrorGeneratingTx,
       txHash: "",
     };
   }
@@ -42,7 +66,7 @@ export async function executeDeposit(
     return {
       error: true,
       message: sign.message,
-      title: "Error signing tx",
+      title: SIGNING_NOTIFICATIONS.ErrorTitle,
       txHash: "",
     };
   }
@@ -54,15 +78,15 @@ export async function executeDeposit(
     return {
       error: true,
       message: broadcastResponse.message,
-      title: "Error broadcasting tx",
+      title: BROADCASTED_NOTIFICATIONS.ErrorTitle,
       txHash: "",
     };
   }
 
   return {
     error: false,
-    message: `Transaction submit with hash: ${broadcastResponse.txhash}`,
-    title: "Successfully broadcasted",
+    message: `${BROADCASTED_NOTIFICATIONS.SubmitTitle} ${broadcastResponse.txhash}`,
+    title: BROADCASTED_NOTIFICATIONS.SuccessTitle,
     txHash: broadcastResponse.txhash,
   };
 }

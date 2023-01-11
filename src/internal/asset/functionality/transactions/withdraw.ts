@@ -1,7 +1,13 @@
 import { BigNumber, utils } from "ethers";
 import { EVMOS_NETWORK_FOR_BACKEND } from "../../../wallet/functionality/networkConfig";
 import { Signer } from "../../../wallet/functionality/signing/genericSigner";
-import { BROADCASTED_NOTIFICATIONS } from "./errors";
+import { checkFormatAddress } from "../../style/format";
+import {
+  BROADCASTED_NOTIFICATIONS,
+  GENERATING_TX_NOTIFICATIONS,
+  MODAL_NOTIFICATIONS,
+  SIGNING_NOTIFICATIONS,
+} from "./errors";
 import { ibcTransferBackendCall } from "./ibcTransfer";
 import { IBCChainParams } from "./types";
 
@@ -13,13 +19,14 @@ export async function executeWithdraw(
   params: IBCChainParams,
   feeBalance: BigNumber,
   extension: string,
-  useERC20Denom: boolean
+  useERC20Denom: boolean,
+  prefix: string
 ) {
   if (feeBalance.lt(feeAmountForWithdraw)) {
     return {
       error: true,
-      message: "Insuficient EVMOS balance to pay the fee",
-      title: "Wrong params",
+      message: MODAL_NOTIFICATIONS.ErrorInsufficientFeeSubtext,
+      title: MODAL_NOTIFICATIONS.ErrorAmountTitle,
       txHash: "",
     };
   }
@@ -27,13 +34,29 @@ export async function executeWithdraw(
   if (utils.parseEther(params.amount).lte(BigNumber.from("0"))) {
     return {
       error: true,
-      message: "Amount to send must be bigger than 0",
-      title: "Wrong params",
+      message: MODAL_NOTIFICATIONS.ErrorZeroAmountSubtext,
+      title: MODAL_NOTIFICATIONS.ErrorAmountTitle,
       txHash: "",
     };
   }
 
-  //  TODO: if value is bigger than amount, return error
+  if (!checkFormatAddress(params.sender, "evmos")) {
+    return {
+      error: true,
+      message: MODAL_NOTIFICATIONS.ErrorAddressSubtext,
+      title: MODAL_NOTIFICATIONS.ErrorAddressTitle,
+      txHash: "",
+    };
+  }
+  if (!checkFormatAddress(params.receiver, prefix)) {
+    return {
+      error: true,
+      message: MODAL_NOTIFICATIONS.ErrorAddressSubtext,
+      title: MODAL_NOTIFICATIONS.ErrorAddressTitle,
+      txHash: "",
+    };
+  }
+
   const tx = await ibcTransferBackendCall(
     pubkey,
     address,
@@ -45,7 +68,7 @@ export async function executeWithdraw(
     return {
       error: true,
       message: tx.message,
-      title: "Error generating tx",
+      title: GENERATING_TX_NOTIFICATIONS.ErrorGeneratingTx,
       txHash: "",
     };
   }
@@ -61,7 +84,16 @@ export async function executeWithdraw(
     return {
       error: true,
       message: sign.message,
-      title: "Error signing tx",
+      title: SIGNING_NOTIFICATIONS.ErrorTitle,
+      txHash: "",
+    };
+  }
+
+  if (sign.result === true && sign.message == "") {
+    return {
+      error: true,
+      message: sign.message,
+      title: SIGNING_NOTIFICATIONS.ErrorTitle,
       txHash: "",
     };
   }
@@ -80,7 +112,7 @@ export async function executeWithdraw(
 
   return {
     error: false,
-    message: `Transaction submit with hash: ${broadcastResponse.txhash}`,
+    message: `${BROADCASTED_NOTIFICATIONS.SubmitTitle} ${broadcastResponse.txhash}`,
     title: BROADCASTED_NOTIFICATIONS.SuccessTitle,
     txHash: broadcastResponse.txhash,
   };
