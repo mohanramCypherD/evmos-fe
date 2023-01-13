@@ -9,7 +9,7 @@ import {
   checkTxInclusionInABlock,
 } from "../functionality/transactions/executedTx";
 import { TransactionStatus } from "../functionality/transactions/types";
-
+import ViewExplorer from "../../../components/common/ViewExplorer";
 export function getReservedForFeeText(
   amount: BigNumber,
   token: string,
@@ -105,14 +105,23 @@ export function snackbarWaitingBroadcast() {
   });
 }
 
-export async function snackbarIncludedInBlock(txHash: string, chain: string) {
+export async function snackbarIncludedInBlock(
+  txHash: string,
+  chain: string,
+  explorerTxUrl: string
+) {
   const includedInBlock = await checkTxInclusionInABlock(txHash, chain);
   if (includedInBlock !== undefined) {
     if (includedInBlock === TransactionStatus.SUCCESS) {
       return addSnackbar({
         id: 0,
         text: "Successfully included in a block",
-        subtext: txHash,
+        subtext:
+          explorerTxUrl !== "" ? (
+            <ViewExplorer txHash={txHash} explorerTxUrl={explorerTxUrl} />
+          ) : (
+            ""
+          ),
         type: "success",
       });
     } else {

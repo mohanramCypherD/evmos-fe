@@ -42,6 +42,7 @@ import {
   METAMASK_NOTIFICATIONS,
 } from "../../../../internal/wallet/functionality/errors";
 import AddTokenMetamask from "./AddTokenMetamask";
+import ViewExplorer from "../../../common/ViewExplorer";
 
 const Deposit = ({
   item,
@@ -286,7 +287,16 @@ const Deposit = ({
               addSnackbar({
                 id: 0,
                 text: res.title,
-                subtext: res.message,
+                subtext:
+                  res.error === true ? (
+                    res.message
+                  ) : (
+                    <ViewExplorer
+                      text={res.message}
+                      txHash={res.txHash}
+                      explorerTxUrl={res.explorerTxUrl}
+                    />
+                  ),
                 type: res.error === true ? "error" : "success",
               })
             );
@@ -297,7 +307,8 @@ const Deposit = ({
               dispatch(
                 await snackbarIncludedInBlock(
                   res.txHash,
-                  item.chainIdentifier.toUpperCase()
+                  item.chainIdentifier.toUpperCase(),
+                  res.explorerTxUrl
                 )
               );
 

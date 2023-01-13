@@ -25,6 +25,7 @@ import {
 } from "../../../../internal/asset/functionality/transactions/errors";
 import { Token } from "../../../../internal/wallet/functionality/metamask/metamaskHelpers";
 import AddTokenMetamask from "./AddTokenMetamask";
+import ViewExplorer from "../../../common/ViewExplorer";
 import { WEVMOS } from "./contracts/abis/WEVMOS/WEVMOS";
 
 const Convert = ({
@@ -185,7 +186,16 @@ const Convert = ({
                 addSnackbar({
                   id: 0,
                   text: res.title,
-                  subtext: res.message,
+                  subtext:
+                    res.error === true ? (
+                      res.message
+                    ) : (
+                      <ViewExplorer
+                        text={res.message}
+                        txHash={res.txHash}
+                        explorerTxUrl={res.explorerTxUrl}
+                      />
+                    ),
                   type: res.error === true ? "error" : "success",
                 })
               );
@@ -208,7 +218,13 @@ const Convert = ({
                     addSnackbar({
                       id: 0,
                       text: BROADCASTED_NOTIFICATIONS.SuccessTitle,
-                      subtext: res.hash,
+                      subtext: (
+                        <ViewExplorer
+                          txHash={res.hash}
+                          explorerTxUrl={`www.mintscan.io/evmos/txs/${res.hash}`}
+                          text={res.hash}
+                        />
+                      ),
                       type: "success",
                     })
                   );
@@ -242,7 +258,13 @@ const Convert = ({
                     addSnackbar({
                       id: 0,
                       text: BROADCASTED_NOTIFICATIONS.SuccessTitle,
-                      subtext: res.hash,
+                      subtext: (
+                        <ViewExplorer
+                          txHash={res.hash}
+                          explorerTxUrl={`www.mintscan.io/evmos/txs/${res.hash}`}
+                          text={res.hash}
+                        />
+                      ),
                       type: "success",
                     })
                   );
