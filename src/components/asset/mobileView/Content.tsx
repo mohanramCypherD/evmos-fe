@@ -3,7 +3,6 @@ import {
   amountToDolars,
   convertAndFormat,
 } from "../../../internal/asset/style/format";
-
 import { TableData } from "../../../internal/asset/functionality/table/normalizeData";
 
 import { Description } from "../table/components/Description";
