@@ -208,8 +208,15 @@ const Convert = ({
                     wallet.extensionName
                   );
                   if (contract === null) {
-                    // TODO: alert invalid provider
-                    alert("invalid provider");
+                    dispatch(
+                      addSnackbar({
+                        id: 0,
+                        text: GENERATING_TX_NOTIFICATIONS.ErrorGeneratingTx,
+                        subtext: "",
+                        type: "error",
+                      })
+                    );
+                    setShow(false);
                     return;
                   }
                   setDisabled(true);
@@ -247,8 +254,15 @@ const Convert = ({
                     wallet.extensionName
                   );
                   if (contract === null) {
-                    // TODO: alert invalid provider
-                    alert("invalid provider");
+                    dispatch(
+                      addSnackbar({
+                        id: 0,
+                        text: GENERATING_TX_NOTIFICATIONS.ErrorGeneratingTx,
+                        subtext: "",
+                        type: "error",
+                      })
+                    );
+                    setShow(false);
                     return;
                   }
                   setDisabled(true);
