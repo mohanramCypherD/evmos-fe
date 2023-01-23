@@ -115,7 +115,7 @@ const Withdraw = ({
             style={{
               tokenTo: item.symbol,
               address: address,
-              img: `/tokens/evmos.png`,
+              img: `/assets/tokens/evmos.png`,
               text: "EVMOS",
             }}
           />
@@ -138,7 +138,7 @@ const Withdraw = ({
         <div className="bg-skinTan px-8 py-4 rounded-lg space-y-5 mb-8">
           <ToContainer
             token={item.symbol}
-            img={`/tokens/${item.symbol.toLowerCase()}.png`}
+            img={`/assets/tokens/${item.symbol.toLowerCase()}.png`}
           />
           <div className="space-y-3">
             <div className="pr-5 pl-2 flex items-center space-x-3 bg-white hover:border-black focus-visible:border-black focus-within:border-black border border-darkGray5 rounded-lg">
