@@ -19,8 +19,8 @@ export async function executeWithdraw(
   params: IBCChainParams,
   feeBalance: BigNumber,
   extension: string,
-  useERC20Denom: boolean,
-  prefix: string
+  prefix: string,
+  useERC20Denom: boolean
 ) {
   if (feeBalance.lt(feeAmountForWithdraw)) {
     return {
@@ -43,23 +43,6 @@ export async function executeWithdraw(
   }
 
   if (!checkFormatAddress(params.sender, "evmos")) {
-    return {
-      error: true,
-      message: MODAL_NOTIFICATIONS.ErrorAddressSubtext,
-      title: MODAL_NOTIFICATIONS.ErrorAddressTitle,
-      txHash: "",
-      explorerTxUrl: "",
-    };
-  }
-
-  // TODO: We'll work on this once we start with
-  // single token representation
-  // This function only supports OSMOSIS - EVMOS case.
-  let prefixReceiver = prefix;
-  if (params.receiver.startsWith("osmo")) {
-    prefixReceiver = "osmo";
-  }
-  if (!checkFormatAddress(params.receiver, prefixReceiver)) {
     return {
       error: true,
       message: MODAL_NOTIFICATIONS.ErrorAddressSubtext,

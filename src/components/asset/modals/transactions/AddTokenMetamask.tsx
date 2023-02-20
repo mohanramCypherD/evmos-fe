@@ -1,10 +1,12 @@
+import Image from "next/image";
 import { useDispatch } from "react-redux";
 import {
   addToken,
   Token,
 } from "../../../../internal/wallet/functionality/metamask/metamaskHelpers";
-import MetamaskIcon from "../../../common/images/icons/MetamaskIcon";
+import SmallButton from "../../../common/SmallButton";
 import { addSnackbar } from "../../../notification/redux/notificationSlice";
+import { SNACKBAR_CONTENT_TYPES } from "../../../notification/types";
 
 const AddTokenMetamask = ({ token }: { token: Token }) => {
   const dispatch = useDispatch();
@@ -20,20 +22,31 @@ const AddTokenMetamask = ({ token }: { token: Token }) => {
       dispatch(
         addSnackbar({
           id: 0,
-          content: value.text,
+          content: {
+            type: SNACKBAR_CONTENT_TYPES.TEXT,
+            title: value.text,
+          },
           type: value.type,
         })
       );
     }
   };
   return (
-    <button
-      className="flex items-center border border-darkGray2 rounded-lg p-1 px-3 text-xs uppercase space-x-2 font-bold"
+    <SmallButton
       onClick={handleOnClick}
-    >
-      <MetamaskIcon width={20} height={20} className="cursor-pointer w-auto" />
-      Add {token.symbol}
-    </button>
+      text={
+        <div className="flex items-center space-x-1 uppercase">
+          <Image
+            width={15}
+            height={15}
+            className="cursor-pointer w-auto"
+            src={`/assets/tokens/${token.symbol.toLowerCase()}.png`}
+            alt={token.symbol}
+          />
+          <span>Add {token.symbol}</span>
+        </div>
+      }
+    />
   );
 };
 

@@ -22,12 +22,14 @@ export const MODAL_NOTIFICATIONS = {
   ErrorZeroAmountSubtext: "Amount cannot be 0",
   ErrorInsufficientFeeSubtext:
     "Lack sufficient balance to carry forth action. Balance needs to be above reserved amount",
-  ErrosAmountGt: "Amount is bigger than the actual balance",
+  ErrorsAmountGt: "Amount is bigger than the actual balance",
   ErrorAmountEmpty: "Amount can not be empty",
   ErrorAddressTitle: "Invalid address",
   ErrorAddressSubtext: "The address does not match with the chain",
   ErrorPositiveNumberSubtext: "Amount can only be a positive number",
   ErrorAddressEmpty: "Address can not be empty",
+  ErrorTokenEmpty: "Please, select a token",
+  ErrorWrongPrefix: "Incorrect address",
 } as const;
 
 export const BALANCE_NOTIFICATIONS = {
@@ -42,3 +44,13 @@ export const GENERATING_TX_NOTIFICATIONS = {
 export const SIGNING_NOTIFICATIONS = {
   ErrorTitle: "Error signing tx",
 } as const;
+
+export const INCLUDED_BLOCK_NOTIFICATIONS = {
+  SuccessTitle: "Successfully included in a block",
+  ErrorTitle: "Error including transaction in a block",
+  WaitingTitle: "Waiting for the transaction to be included in a block",
+} as const;
+
+export const WALLET_NOTIFICATIONS = {
+  ErrorTitle: "Wallet not connected",
+};
