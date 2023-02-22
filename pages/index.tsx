@@ -24,7 +24,6 @@ const Snackbars = dynamic(
   () => import("../src/components/notification/Snackbars")
 );
 const Footer = dynamic(() => import("../src/components/footer/Footer"));
-
 export default function Home() {
   const queryClient = new QueryClient();
   return (
@@ -50,7 +49,7 @@ export default function Home() {
               {/* <!--  Essential META Tags --> */}
               <meta property="og:title" content="Evmos Assets" />
               <meta property="og:type" content="article" />
-              <meta property="og:image" content="/social_share.jpg" />
+              <meta property="og:image" content="/assets/social_share.jpg" />
               <meta property="og:url" content="https://app.evmos.org/assets" />
               <meta name="twitter:card" content="summary_large_image" />
 
@@ -61,7 +60,11 @@ export default function Home() {
               />
               <meta property="og:site_name" content="Evmos Assets" />
               <meta
-                name="twitter:image:alt"
+                property="twitter:image"
+                content="/assets/social_share.jpg"
+              />
+              <meta
+                name="twitter:description"
                 content="EVMOS Assets is the official place to withdraw, deposit and convert your Evmos assets."
               />
               <meta name="twitter:site" content="@EvmosOrg" />
