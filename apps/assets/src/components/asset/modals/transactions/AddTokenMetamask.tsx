@@ -1,12 +1,13 @@
 import Image from "next/image";
 import { useDispatch } from "react-redux";
+import SmallButton from "../../../common/SmallButton";
+
 import {
   addToken,
   Token,
   addSnackbar,
   SNACKBAR_CONTENT_TYPES,
 } from "evmos-wallet";
-import SmallButton from "../../../common/SmallButton";
 
 const AddTokenMetamask = ({ token }: { token: Token }) => {
   const dispatch = useDispatch();

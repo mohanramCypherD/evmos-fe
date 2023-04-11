@@ -5,6 +5,23 @@ import { useDispatch, useSelector } from "react-redux";
 import { TableDataElement } from "../../../../internal/asset/functionality/table/normalizeData";
 import { executeWithdraw } from "../../../../internal/asset/functionality/transactions/withdraw";
 import {
+  getReservedForFeeText,
+  snackbarExecutedTx,
+  snackbarIncludedInBlock,
+  snackbarWaitingBroadcast,
+} from "../../../../internal/asset/style/format";
+import ConfirmButton from "../../../common/ConfirmButton";
+import KeplrIcon from "../../../common/images/icons/KeplrIcon";
+import { ModalTitle } from "../../../common/Modal";
+import Arrow from "../common/Arrow";
+import ErrorMessage from "../common/ErrorMessage";
+import FromContainer from "../common/FromContainer";
+import ToContainer from "../common/ToContainer";
+import Tabs from "../common/Tabs";
+
+import AddTokenMetamask from "./AddTokenMetamask";
+import Link from "next/link";
+import {
   IBCChainParams,
   getKeplrAddressByChain,
   StoreType,
@@ -19,23 +36,6 @@ import {
   SNACKBAR_CONTENT_TYPES,
   SNACKBAR_TYPES,
 } from "evmos-wallet";
-import {
-  getReservedForFeeText,
-  snackbarExecutedTx,
-  snackbarIncludedInBlock,
-  snackbarWaitingBroadcast,
-} from "../../../../internal/asset/style/format";
-import ConfirmButton from "../../../common/ConfirmButton";
-import KeplrIcon from "../../../common/images/icons/KeplrIcon";
-import { ModalTitle } from "../../../common/Modal";
-import Arrow from "../common/Arrow";
-import ErrorMessage from "../common/ErrorMessage";
-import FromContainer from "../common/FromContainer";
-import ToContainer from "../common/ToContainer";
-import Tabs from "../common/Tabs";
-import AddTokenMetamask from "./AddTokenMetamask";
-import Link from "next/link";
-
 const Withdraw = ({
   item,
   feeBalance,

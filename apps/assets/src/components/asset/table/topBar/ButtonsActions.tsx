@@ -15,7 +15,7 @@ const ButtonsActions = ({ actionsProps }: { actionsProps: actionsProps }) => {
   const dispatch = useDispatch();
 
   return (
-    <div className="flex items-center justify-center space-x-2 sm:justify-end">
+    <div className="flex items-center justify-center space-x-2 lg:justify-end">
       <ConfirmButton
         disabled={
           !wallet.active ||

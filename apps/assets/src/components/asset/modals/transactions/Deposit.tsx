@@ -1,26 +1,8 @@
 import { BigNumber } from "ethers";
-import { parseUnits } from "ethers/lib/utils";
+import { parseUnits } from "@ethersproject/units";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { TableDataElement } from "../../../../internal/asset/functionality/table/normalizeData";
-import {
-  IBCChainParams,
-  StoreType,
-  addSnackbar,
-  getKeplrAddressByChain,
-  getWallet,
-  Token,
-  EVMOS_CHAIN,
-  EVMOS_SYMBOL,
-  BALANCE_NOTIFICATIONS,
-  BROADCASTED_NOTIFICATIONS,
-  EXECUTED_NOTIFICATIONS,
-  WALLET_NOTIFICATIONS,
-  KEPLR_NOTIFICATIONS,
-  METAMASK_NOTIFICATIONS,
-  SNACKBAR_CONTENT_TYPES,
-  SNACKBAR_TYPES,
-} from "evmos-wallet";
 import ConfirmButton from "../../../common/ConfirmButton";
 import KeplrIcon from "../../../common/images/icons/KeplrIcon";
 import { ModalTitle } from "../../../common/Modal";
@@ -43,6 +25,24 @@ import {
 } from "../../../../internal/asset/style/format";
 import AddTokenMetamask from "./AddTokenMetamask";
 
+import {
+  IBCChainParams,
+  StoreType,
+  addSnackbar,
+  getKeplrAddressByChain,
+  getWallet,
+  Token,
+  EVMOS_CHAIN,
+  EVMOS_SYMBOL,
+  BALANCE_NOTIFICATIONS,
+  BROADCASTED_NOTIFICATIONS,
+  EXECUTED_NOTIFICATIONS,
+  WALLET_NOTIFICATIONS,
+  KEPLR_NOTIFICATIONS,
+  METAMASK_NOTIFICATIONS,
+  SNACKBAR_CONTENT_TYPES,
+  SNACKBAR_TYPES,
+} from "evmos-wallet";
 const Deposit = ({
   item,
   feeBalance,

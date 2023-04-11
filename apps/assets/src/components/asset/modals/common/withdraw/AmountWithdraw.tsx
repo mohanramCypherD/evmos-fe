@@ -1,5 +1,4 @@
 import { BigNumber } from "ethers";
-import { MODAL_NOTIFICATIONS, EVMOS_SYMBOL } from "evmos-wallet";
 import {
   convertAndFormat,
   convertFromAtto,
@@ -17,6 +16,7 @@ import Note from "../Note";
 import { TextSmall } from "../TextSmall";
 import { AmountWithdrawProps } from "../types";
 import { feeWithdraw } from "../../../../../internal/asset/Helpers";
+import { MODAL_NOTIFICATIONS, EVMOS_SYMBOL } from "evmos-wallet";
 
 const AmountWithdraw = ({
   amountProps,

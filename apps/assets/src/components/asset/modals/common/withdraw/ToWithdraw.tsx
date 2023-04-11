@@ -1,12 +1,5 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import {
-  MODAL_NOTIFICATIONS,
-  snackErrorConnectingKeplr,
-  getKeplrAddressByChain,
-  EVMOS_SYMBOL,
-  truncateAddress,
-} from "evmos-wallet";
 import { checkFormatAddress } from "../../../../../internal/asset/style/format";
 import KeplrIcon from "../../../../common/images/icons/KeplrIcon";
 import SmallButton from "../../../../common/SmallButton";
@@ -17,6 +10,13 @@ import ErrorMessage from "../ErrorMessage";
 import { TextSmall } from "../TextSmall";
 import { WithdrawReceiverProps } from "../types";
 import ChainContainer from "./ChainContainer";
+import {
+  MODAL_NOTIFICATIONS,
+  snackErrorConnectingKeplr,
+  getKeplrAddressByChain,
+  EVMOS_SYMBOL,
+  truncateAddress,
+} from "evmos-wallet";
 
 const ToWithdraw = ({
   token,

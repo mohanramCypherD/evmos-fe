@@ -5,13 +5,13 @@ import {
   amountToDollars,
   convertAndFormat,
 } from "../../../../internal/asset/style/format";
+import { BIG_ZERO } from "../../../../internal/common/math/Bignumbers";
 import {
   snackWarningLedger,
   EVMOS_SYMBOL,
   KEPLR_KEY,
   StoreType,
 } from "evmos-wallet";
-import { BIG_ZERO } from "../../../../internal/common/math/Bignumbers";
 import Button from "../../../common/Button";
 import QuestionMarkIcon from "../../../common/images/icons/QuestionMarkIcon";
 import Tooltip from "../../../common/Tooltip";

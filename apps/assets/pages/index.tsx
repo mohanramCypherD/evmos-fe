@@ -17,23 +17,20 @@ import {
 } from "evmos-wallet";
 
 import { Provider, useDispatch, useSelector } from "react-redux";
-
 import Script from "next/script";
 
 const Header = dynamic(() => import("../src/components/Header"));
 const TermOfServices = dynamic(
   () => import("../src/components/termsOfServices/TermOfServices")
 );
-const Footer = dynamic(() => import("../src/components/footer/Footer"));
-
 function SnackbarsInternal() {
   const valueRedux = useSelector((state: StoreType) => getAllSnackbars(state));
   const dispatch = useDispatch();
   return <Snackbars valueRedux={valueRedux} dispatch={dispatch} />;
 }
+const Footer = dynamic(() => import("../src/components/footer/Footer"));
 export default function Home() {
   const queryClient = new QueryClient();
-
   return (
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
@@ -106,7 +103,7 @@ export default function Home() {
               <Container>
                 <>
                   <SnackbarsInternal />
-                  <Header />
+                  <Header pageName="Assets" />
                   <div className="container mx-auto mb-auto overflow-auto">
                     <AssetsTable />
                   </div>

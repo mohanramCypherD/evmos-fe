@@ -28,7 +28,7 @@ const Modal = ({
         onClick={(e) => {
           e.stopPropagation();
         }}
-        className="relative max-h-[75vh] min-w-[300px] max-w-[600px] overflow-scroll rounded-lg bg-pearl px-5 py-8 text-black sm:max-h-full sm:overflow-auto sm:px-10"
+        className="relative max-h-[75vh] min-w-[300px] max-w-[600px] overflow-scroll rounded-lg bg-pearl px-5 py-8 text-black sm:max-h-full sm:overflow-auto sm:px-10 md:min-w-[400px]"
       >
         <CloseIcon
           onClick={onClose}

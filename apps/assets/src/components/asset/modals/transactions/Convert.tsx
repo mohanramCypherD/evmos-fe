@@ -1,19 +1,6 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getReservedForFeeText } from "../../../../internal/asset/style/format";
-import {
-  StoreType,
-  ConvertMsg,
-  addSnackbar,
-  EVMOS_SYMBOL,
-  KEPLR_NOTIFICATIONS,
-  BROADCASTED_NOTIFICATIONS,
-  GENERATING_TX_NOTIFICATIONS,
-  WALLET_NOTIFICATIONS,
-  Token,
-  SNACKBAR_CONTENT_TYPES,
-  SNACKBAR_TYPES,
-} from "evmos-wallet";
 import ConfirmButton from "../../../common/ConfirmButton";
 import Arrow from "../common/Arrow";
 import FromContainer from "../common/FromContainer";
@@ -27,9 +14,23 @@ import { ModalTitle } from "../../../common/Modal";
 import { WEVMOS_CONTRACT_ADDRESS } from "../constants";
 import WETH_ABI from "./contracts/abis/WEVMOS/WEVMOS.json";
 import { createContract } from "./contracts/contractHelper";
+
 import AddTokenMetamask from "./AddTokenMetamask";
 import { WEVMOS } from "./contracts/abis/WEVMOS/WEVMOS";
 
+import {
+  StoreType,
+  ConvertMsg,
+  addSnackbar,
+  EVMOS_SYMBOL,
+  KEPLR_NOTIFICATIONS,
+  BROADCASTED_NOTIFICATIONS,
+  GENERATING_TX_NOTIFICATIONS,
+  WALLET_NOTIFICATIONS,
+  Token,
+  SNACKBAR_CONTENT_TYPES,
+  SNACKBAR_TYPES,
+} from "evmos-wallet";
 const Convert = ({
   item,
   feeBalance,

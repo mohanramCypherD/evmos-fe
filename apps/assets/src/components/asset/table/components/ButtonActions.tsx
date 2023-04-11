@@ -1,5 +1,6 @@
 import dynamic from "next/dynamic";
 import Link from "next/link";
+
 import {
   KEPLR_KEY,
   METAMASK_KEY,
@@ -7,7 +8,6 @@ import {
   EVMOS_SYMBOL,
   StoreType,
 } from "evmos-wallet";
-
 const Button = dynamic(() => import("../../../common/Button"));
 const ExternalLinkIcon = dynamic(
   () => import("../../../common/images/icons/ExternalLink")
