@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { checkFormatAddress } from "../../../../../internal/asset/style/format";
-import KeplrIcon from "../../../../common/images/icons/KeplrIcon";
-import SmallButton from "../../../../common/SmallButton";
+import { checkFormatAddress } from "helpers";
+import { KeplrIcon } from "icons";
+import { SmallButton, ContainerInput, ErrorMessage } from "ui-helpers";
 import AddTokenMetamask from "../../transactions/AddTokenMetamask";
-import ContainerInput from "../ContainerInput";
 import { ContainerModal } from "../ContainerModal";
-import ErrorMessage from "../ErrorMessage";
 import { TextSmall } from "../TextSmall";
 import { WithdrawReceiverProps } from "../types";
 import ChainContainer from "./ChainContainer";

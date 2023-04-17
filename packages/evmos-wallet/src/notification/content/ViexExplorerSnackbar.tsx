@@ -1,4 +1,4 @@
-import ViewExplorer from "../../common/ViewExplorer";
+import { ViewExplorer } from "ui-helpers";
 
 type snackbarProps = {
   title: string;

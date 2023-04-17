@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getReservedForFeeText } from "../../../../internal/asset/style/format";
-import ConfirmButton from "../../../common/ConfirmButton";
+import { getReservedForFeeText } from "helpers";
+import { ConfirmButton, ModalTitle } from "ui-helpers";
 import Arrow from "../common/Arrow";
 import FromContainer from "../common/FromContainer";
 import Tabs from "../common/Tabs";
@@ -10,7 +10,6 @@ import { parseUnits } from "@ethersproject/units";
 import { BigNumber } from "@ethersproject/bignumber";
 import { executeConvert } from "../../../../internal/asset/functionality/transactions/convert";
 import { TableDataElement } from "../../../../internal/asset/functionality/table/normalizeData";
-import { ModalTitle } from "../../../common/Modal";
 import { WEVMOS_CONTRACT_ADDRESS } from "../constants";
 import WETH_ABI from "./contracts/abis/WEVMOS/WEVMOS.json";
 import { createContract } from "./contracts/contractHelper";

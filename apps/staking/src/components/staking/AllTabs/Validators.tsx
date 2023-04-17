@@ -1,5 +1,4 @@
 import { BigNumber } from "ethers";
-import dynamic from "next/dynamic";
 import { useCallback, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -30,11 +29,9 @@ import {
   convertStringFromAtto,
   formatNumber,
   formatPercentage,
-} from "../../../internal/common/helpers/style";
+} from "helpers";
 
-const Modal = dynamic(() => import("../../common/Modal"));
-const Button = dynamic(() => import("../../common/Button"));
-const MessageTable = dynamic(() => import("../../common/table/MessageTable"));
+import { Modal, Button, MessageTable } from "ui-helpers";
 
 const dataHead = ["Rank", "Name", "Voting Power", "Staked", "Commission", ""];
 

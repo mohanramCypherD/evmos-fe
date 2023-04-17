@@ -1,14 +1,14 @@
 import Image from "next/image";
 import { useState } from "react";
 import {
-  convertAndFormat,
   convertFromAtto,
+  convertAndFormat,
   createBigNumber,
   numericOnly,
   safeSubstraction,
   truncateNumber,
-} from "../../../../internal/asset/style/format";
-import ErrorMessage from "./ErrorMessage";
+} from "helpers";
+import { ErrorMessage } from "ui-helpers";
 import { FromProps } from "./types";
 import { truncateAddress, MODAL_NOTIFICATIONS } from "evmos-wallet";
 

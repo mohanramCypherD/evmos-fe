@@ -1,10 +1,7 @@
-import TopBarContainer from "../common/TopBarContainer";
-import { Container } from "../common/topBar/Container";
+import { TopBarContainer, TopBarItem } from "ui-helpers";
 
-import {
-  amountToDollars,
-  convertFromAtto,
-} from "../../internal/common/helpers/style";
+import { convertFromAtto, amountToDollars } from "helpers";
+
 import { useHeaderInfo } from "../../internal/functionality/hooks/useHeaderInfo";
 import useAssetsTopBar from "../../internal/functionality/hooks/useAssetsTopBar";
 
@@ -21,20 +18,20 @@ const TopBarMissionControl = () => {
   return (
     <TopBarContainer>
       <>
-        <Container
+        <TopBarItem
           // it shows the total amount of ALL assets including
           // cosmosBalance and erc20Balance + total staked in dollars
           text="Total Assets"
           value={`$${(totalAssets + Number(totalAmountDollars)).toFixed(2)}`}
         />
 
-        <Container
+        <TopBarItem
           // it shows the total amount of evmos + wevmos + stakedEvmos
           text="Total EVMOS"
           value={`${Number(convertFromAtto(totalEvmos)).toFixed(2)} EVMOS`}
         />
 
-        <Container
+        <TopBarItem
           // it shows the total amount of delegations
           text="Total Staked"
           value={`
@@ -42,12 +39,12 @@ const TopBarMissionControl = () => {
           href="https://app.evmos.org/staking"
         />
         {/* displays the total rewards availables */}
-        <Container
+        <TopBarItem
           text="Total Rewards Available"
           value={`${totalRewards.toFixed(2)} EVMOS`}
         />
 
-        <Container text="EVMOS Price" value={evmosPrice} />
+        <TopBarItem text="EVMOS Price" value={evmosPrice} />
       </>
     </TopBarContainer>
   );

@@ -3,11 +3,9 @@ import { parseUnits } from "@ethersproject/units";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { TableDataElement } from "../../../../internal/asset/functionality/table/normalizeData";
-import ConfirmButton from "../../../common/ConfirmButton";
-import KeplrIcon from "../../../common/images/icons/KeplrIcon";
-import { ModalTitle } from "../../../common/Modal";
+import { ConfirmButton, ModalTitle, ErrorMessage } from "ui-helpers";
+import { KeplrIcon, MetamaskIcon } from "icons";
 import Arrow from "../common/Arrow";
-import ErrorMessage from "../common/ErrorMessage";
 import FromContainer from "../common/FromContainer";
 import ToContainer from "../common/ToContainer";
 import { executeDeposit } from "../../../../internal/asset/functionality/transactions/deposit";
@@ -15,8 +13,6 @@ import {
   getBalance,
   getEvmosBalanceForDeposit,
 } from "../../../../internal/asset/functionality/fetch";
-import { BIG_ZERO } from "../../../../internal/common/math/Bignumbers";
-import MetamaskIcon from "../../../common/images/icons/MetamaskIcon";
 import { ethToEvmos } from "@evmos/address-converter";
 import {
   snackbarExecutedTx,
@@ -61,7 +57,7 @@ const Deposit = ({
 
   const dispatch = useDispatch();
 
-  const [balance, setBalance] = useState(BIG_ZERO);
+  const [balance, setBalance] = useState(BigNumber.from(0));
   const [walletToUse, setWalletToUse] = useState("");
   const [disabled, setDisabled] = useState(false);
 

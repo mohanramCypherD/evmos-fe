@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { Dispatch, SetStateAction } from "react";
-import CloseIcon from "../../common/images/icons/CloseIcon";
-import Logo from "../../common/images/Logo";
+import { CloseIcon, Logo } from "icons";
 import SideBar from "./Sidebar";
 
 const SidebarMobile = ({

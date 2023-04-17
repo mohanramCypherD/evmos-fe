@@ -1,14 +1,13 @@
 import { BigNumber } from "ethers";
 import { Dispatch, SetStateAction, useState } from "react";
 import { TableDataElement } from "../../../../internal/asset/functionality/table/normalizeData";
-import ConfirmButton from "../../../common/ConfirmButton";
-import { ModalTitle } from "../../../common/Modal";
+import { ConfirmButton, ModalTitle } from "ui-helpers";
 import { ContainerModal } from "../common/ContainerModal";
 import FromConvert from "../common/convert/FromConvert";
 import ToConvert from "../common/convert/ToConvert";
 
 import { Token, EVMOS_SYMBOL } from "evmos-wallet";
-import { getReservedForFeeText } from "../../../../internal/asset/style/format";
+import { getReservedForFeeText } from "helpers";
 
 import Note from "../common/Note";
 import { useConvert } from "./hooks/useConvert";

@@ -5,16 +5,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { TableDataElement } from "../../../../internal/asset/functionality/table/normalizeData";
 import { executeWithdraw } from "../../../../internal/asset/functionality/transactions/withdraw";
 import {
-  getReservedForFeeText,
   snackbarExecutedTx,
   snackbarIncludedInBlock,
   snackbarWaitingBroadcast,
 } from "../../../../internal/asset/style/format";
-import ConfirmButton from "../../../common/ConfirmButton";
-import KeplrIcon from "../../../common/images/icons/KeplrIcon";
-import { ModalTitle } from "../../../common/Modal";
+import { getReservedForFeeText } from "helpers";
+import { ConfirmButton, ModalTitle, ErrorMessage } from "ui-helpers";
+import { KeplrIcon } from "icons";
 import Arrow from "../common/Arrow";
-import ErrorMessage from "../common/ErrorMessage";
 import FromContainer from "../common/FromContainer";
 import ToContainer from "../common/ToContainer";
 import Tabs from "../common/Tabs";

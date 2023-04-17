@@ -1,17 +1,17 @@
 import { MODAL_NOTIFICATIONS } from "evmos-wallet";
+
 import {
-  convertAndFormat,
   convertFromAtto,
+  convertAndFormat,
   createBigNumber,
   numericOnly,
   safeSubstraction,
   truncateNumber,
-} from "../../../../../internal/asset/style/format";
+} from "helpers";
+
 import DropdownTokensDeposit from "../../../dropdown/DropdownTokensDeposit";
-import SmallButton from "../../../../common/SmallButton";
-import ContainerInput from "../ContainerInput";
+import { SmallButton, ContainerInput, ErrorMessage } from "ui-helpers";
 import { ContainerModal } from "../ContainerModal";
-import ErrorMessage from "../ErrorMessage";
 import Note from "../Note";
 import { TextSmall } from "../TextSmall";
 import { AmountDepositProps } from "../types";

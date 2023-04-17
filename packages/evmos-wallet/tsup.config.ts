@@ -26,6 +26,8 @@ export default defineConfig((options: Options) => ({
     "@evmos/provider",
     "@evmos/transactions",
     "@hanchon/signature-to-pubkey",
+    "icons",
+    "ui-helpers",
   ],
   ...options,
 }));

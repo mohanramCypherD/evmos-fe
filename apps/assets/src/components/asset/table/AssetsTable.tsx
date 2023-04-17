@@ -4,27 +4,24 @@ import { useSelector } from "react-redux";
 import { StoreType } from "evmos-wallet";
 import { ERC20BalanceResponse } from "./types";
 import { getAssetsForAddress } from "../../../internal/asset/functionality/fetch";
-
+import { NAV_TO_MISSION_CONTROL, EVMOS_PAGE_URL } from "constants-helper";
 import dynamic from "next/dynamic";
 
 const ModalAsset = dynamic(() => import("../modals/ModalAsset"));
-const MessageTable = dynamic(() => import("./MessageTable"));
-const Switch = dynamic(() => import("../utils/Switch"));
+import { MessageTable, Switch, Navigation } from "ui-helpers";
 const TopBar = dynamic(() => import("./topBar/TopBar"));
 const ContentTable = dynamic(() => import("./ContentTable"));
 
-import { BIG_ZERO } from "../../../internal/common/math/Bignumbers";
 import {
   normalizeAssetsData,
   TableData,
 } from "../../../internal/asset/functionality/table/normalizeData";
 import HeadTable from "./HeadTable";
-import { getTotalAssets } from "../../../internal/asset/style/format";
+import { getTotalAssets } from "helpers";
 import HeadAssets from "./components/HeadAssets";
 import Guide from "./Guide";
 import { useStakedEvmos } from "../../../internal/common/api/hooks/useStakedEvmos";
-import Navigation from "../../common/navigation/Navigation";
-import { EVMOS_PAGE_URL, NAV_TO_MISSION_CONTROL } from "../../common/constants";
+import { BigNumber } from "ethers";
 
 const AssetsTable = () => {
   const [show, setShow] = useState(false);
@@ -72,8 +69,8 @@ const AssetsTable = () => {
     return normalizedAssetsData?.table.filter((asset) => {
       if (
         hideZeroBalance === true &&
-        asset.erc20Balance.eq(BIG_ZERO) &&
-        asset.cosmosBalance.eq(BIG_ZERO)
+        asset.erc20Balance.eq(BigNumber.from(0)) &&
+        asset.cosmosBalance.eq(BigNumber.from(0))
       ) {
         return false;
       }

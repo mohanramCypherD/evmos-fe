@@ -5,12 +5,7 @@ import { useSelector } from "react-redux";
 import { StoreType } from "evmos-wallet";
 import { ERC20BalanceResponse } from "../../types";
 import { getAssetsForAddress } from "../../fetch";
-import {
-  addAssets,
-  addDolarAssets,
-  amountToDollars,
-} from "../../common/helpers/style";
-import { BIG_ZERO } from "../../common/math/Bignumbers";
+import { addAssets, addDollarAssets, amountToDollars } from "helpers";
 
 const useAssetsTopBar = () => {
   const value = useSelector((state: StoreType) => state.wallet.value);
@@ -42,7 +37,7 @@ const useAssetsTopBar = () => {
           decimals: Number(item.decimals),
           cosmosBalance: BigNumber.from(item.cosmosBalance),
         }).toFixed(2),
-        valueInDollars: addDolarAssets({
+        valueInDollars: addDollarAssets({
           erc20Balance: BigNumber.from(item.erc20Balance),
           decimals: Number(item.decimals),
           coingeckoPrice: Number(item.coingeckoPrice),
@@ -93,7 +88,7 @@ const useAssetsTopBar = () => {
 
   const getTotalEvmos = useMemo(() => {
     // returns the amount of evmos and wrap evmos
-    let total = BIG_ZERO;
+    let total = BigNumber.from(0);
 
     if (assets.data === undefined || assets.data.balance.length === 0) {
       return total;

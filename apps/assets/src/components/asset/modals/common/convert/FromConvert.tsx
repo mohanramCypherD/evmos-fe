@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { useState } from "react";
+
 import {
   convertFromAtto,
   createBigNumber,
@@ -7,12 +8,11 @@ import {
   numericOnly,
   safeSubstraction,
   truncateNumber,
-} from "../../../../../internal/asset/style/format";
-import ErrorMessage from "../ErrorMessage";
+} from "helpers";
+
+import { ErrorMessage, ContainerInput, SmallButton } from "ui-helpers";
 import { MODAL_NOTIFICATIONS } from "evmos-wallet";
 import { FromProps } from "../types";
-import ContainerInput from "../ContainerInput";
-import SmallButton from "../../../../common/SmallButton";
 
 const FromConvert = ({ fee, balance, input, style }: FromProps) => {
   const feeDeposit = "5000";

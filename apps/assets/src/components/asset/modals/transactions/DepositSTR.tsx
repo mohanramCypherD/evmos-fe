@@ -2,13 +2,11 @@ import { BigNumber } from "ethers";
 import { useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { TableDataElement } from "../../../../internal/asset/functionality/table/normalizeData";
-import ConfirmButton from "../../../common/ConfirmButton";
-import { ModalTitle } from "../../../common/Modal";
+import { ConfirmButton, ModalTitle } from "ui-helpers";
 import {
   getBalance,
   getEvmosBalanceForDeposit,
 } from "../../../../internal/asset/functionality/fetch";
-import { BIG_ZERO } from "../../../../internal/common/math/Bignumbers";
 import DepositReceiver from "../common/deposit/DepositReceiver";
 import AmountDeposit from "../common/deposit/AmountDeposit";
 import DepositSender from "../common/deposit/DepositSender";
@@ -35,7 +33,7 @@ const DepositSTR = ({
   const [inputValue, setInputValue] = useState("");
   const [confirmClicked, setConfirmClicked] = useState(false);
   const [receiverAddress, setReceiverAddress] = useState("");
-  const [balance, setBalance] = useState(BIG_ZERO);
+  const [balance, setBalance] = useState(BigNumber.from(0));
   const [walletToUse, setWalletToUse] = useState("");
   const [disabled, setDisabled] = useState(false);
   const [token, setToken] = useState<TableDataElement>();

@@ -1,20 +1,15 @@
 import { BigNumber } from "ethers";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  amountToDollars,
-  convertAndFormat,
-} from "../../../../internal/asset/style/format";
-import { BIG_ZERO } from "../../../../internal/common/math/Bignumbers";
+import { amountToDollars, convertAndFormat } from "helpers";
 import {
   snackWarningLedger,
   EVMOS_SYMBOL,
   KEPLR_KEY,
   StoreType,
 } from "evmos-wallet";
-import Button from "../../../common/Button";
-import QuestionMarkIcon from "../../../common/images/icons/QuestionMarkIcon";
-import Tooltip from "../../../common/Tooltip";
+import { Button, Tooltip } from "ui-helpers";
+import { QuestionMarkIcon } from "icons";
 import Convert from "../../modals/transactions/Convert";
 import { ConvertSTR } from "../../modals/transactions/ConvertSTR";
 import { Description } from "./Description";
@@ -156,7 +151,7 @@ export const SubRowContent = ({
 
         {item.symbol === EVMOS_SYMBOL && createEvmosConvertButton()}
         {item.symbol !== EVMOS_SYMBOL &&
-          !item.cosmosBalance.eq(BIG_ZERO) &&
+          !item.cosmosBalance.eq(BigNumber.from(0)) &&
           createConvertButton()}
       </div>
       <div className="mt-2 flex w-full pl-4 text-right uppercase lg:mt-0 lg:w-[50%] lg:items-center lg:pl-0 lg:text-left">
@@ -205,7 +200,7 @@ export const SubRowContent = ({
         <div className="hidden lg:block">
           {/* displays convert button if user still has ibc balance */}
           {item.symbol !== EVMOS_SYMBOL &&
-            !item.cosmosBalance.eq(BIG_ZERO) &&
+            !item.cosmosBalance.eq(BigNumber.from(0)) &&
             createConvertButton()}
           {/* to withdraw axelar, the users need to convert
           the erc20 to ibc-balance */}

@@ -4,20 +4,22 @@ import { useSelector } from "react-redux";
 import { MODAL_NOTIFICATIONS, StoreType } from "evmos-wallet";
 import { useEvmosBalance } from "../../../../internal/staking/functionality/hooks/useEvmosBalance";
 import { ModalDelegate } from "../../../../internal/staking/functionality/types";
-import ConfirmButton from "../../../common/ConfirmButton";
-import SmallButton from "../../../common/SmallButton";
 import { useDelegation } from "../hooks/useDelegation";
 import {
-  convertAndFormat,
   convertFromAtto,
+  convertAndFormat,
   getReservedForFeeText,
   numericOnly,
   safeSubstraction,
   truncateNumber,
-} from "../../../../internal/common/helpers/style";
-import { FEE_STAKING_ACTIONS } from "../../../../internal/common/helpers/constants";
-import ErrorMessage from "../../../common/ErrorMessage";
-import ContainerInput from "../../../common/ContainerInput";
+} from "helpers";
+import { FEE_STAKING_ACTIONS } from "constants-helper";
+import {
+  ContainerInput,
+  ErrorMessage,
+  ConfirmButton,
+  SmallButton,
+} from "ui-helpers";
 
 export const Delegate = ({
   item,

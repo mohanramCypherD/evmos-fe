@@ -1,9 +1,5 @@
 import { useCallback, useMemo } from "react";
-import {
-  formatAttoNumber,
-  indexOfMax,
-} from "../../../internal/common/helpers/style";
-import { BIG_ZERO } from "../../../internal/common/math/Bignumbers";
+import { formatAttoNumber, indexOfMax } from "helpers";
 import {
   lookupProposalEndStatus,
   ProposalDetailProps,
@@ -11,11 +7,11 @@ import {
 } from "../../../internal/governance/functionality/types";
 import { EVMOS_SYMBOL } from "evmos-wallet";
 import Arc from "../../common/arc/Arc";
-import CheckIcon from "../../common/images/icons/CheckIcon";
-import CloseIcon from "../../common/images/icons/CloseIcon";
+import { CloseIcon, CheckIcon } from "icons";
 import { BAR_COLORS } from "../bar/styles";
 import VotingDetails from "../common/VotingDetails";
 import VoteButton from "./vote/VoteButton";
+import { BigNumber } from "ethers";
 const Graphic = ({
   data,
   loading,
@@ -45,7 +41,7 @@ const Graphic = ({
     }
 
     // avoid showing circle with data if total is 0
-    if (data.total.eq(BIG_ZERO)) {
+    if (data.total.eq(BigNumber.from(0))) {
       return null;
     }
     // 1 indicates that the majority of the votes were NO
@@ -95,7 +91,7 @@ const Graphic = ({
       <div className="relative">
         {drawContentCircle()}
 
-        {!data.total.eq(BIG_ZERO) && (
+        {!data.total.eq(BigNumber.from(0)) && (
           <Arc
             range={360}
             items={[

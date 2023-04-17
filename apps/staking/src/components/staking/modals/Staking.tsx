@@ -3,15 +3,11 @@ import Link from "next/link";
 import { Dispatch, SetStateAction, useState } from "react";
 
 import { ModalDelegate } from "../../../internal/staking/functionality/types";
-import ConfirmButton from "../../common/ConfirmButton";
-import SmallButton from "../../common/SmallButton";
+import { SmallButton, ConfirmButton } from "ui-helpers";
 import { Delegate } from "./transactions/Delegate";
 import { Redelegate } from "./transactions/Redelegate";
 import { Undelegate } from "./transactions/Undelegate";
-import {
-  convertAndFormat,
-  formatPercentage,
-} from "../../../internal/common/helpers/style";
+import { convertAndFormat, formatPercentage } from "helpers";
 
 const Staking = ({
   item,

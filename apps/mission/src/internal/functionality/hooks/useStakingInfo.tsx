@@ -4,13 +4,12 @@ import { StoreType } from "evmos-wallet";
 
 import { useMemo } from "react";
 import { BigNumber } from "ethers";
-import { BIG_ZERO } from "../../common/math/Bignumbers";
 import {
   DelegationsResponse,
   StakingInfoResponse,
   UndelegationsResponse,
 } from "../../types";
-import { convertStringFromAtto } from "../../common/helpers/style";
+import { convertStringFromAtto } from "helpers";
 import { getStakingInfo } from "../../fetch";
 
 export const useStakingInfo = () => {
@@ -23,12 +22,12 @@ export const useStakingInfo = () => {
   });
 
   const totalDelegations = useMemo(() => {
-    let total = BIG_ZERO;
+    let total = BigNumber.from(0);
     if (stakingInfo.data !== undefined) {
       const sum = stakingInfo.data.delegations.reduce((prev, curr) => {
         return prev.add(BigNumber.from(curr?.balance.amount));
       }, total);
-      total = sum ? sum : BIG_ZERO;
+      total = sum ? sum : BigNumber.from(0);
 
       return total;
     }
@@ -37,7 +36,7 @@ export const useStakingInfo = () => {
   }, [stakingInfo]);
 
   const totalUndelegations = useMemo(() => {
-    let total = BIG_ZERO;
+    let total = BigNumber.from(0);
     if (stakingInfo.data !== undefined) {
       // for each validator, get the undelegations balances
       // that are in the entries array
@@ -45,7 +44,7 @@ export const useStakingInfo = () => {
         const sum = validator.entries.reduce((prev, curr) => {
           return prev.add(BigNumber.from(curr?.balance));
         }, total);
-        total = sum ? sum : BIG_ZERO;
+        total = sum ? sum : BigNumber.from(0);
       });
       return total;
     }

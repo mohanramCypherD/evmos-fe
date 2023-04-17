@@ -15,13 +15,9 @@ import {
   trBodyStyle,
 } from "../../common/table/tablesStyles";
 import { TdContent } from "../../common/table/TdContent";
-import {
-  convertAndFormat,
-  getRemainingTime,
-} from "../../../internal/common/helpers/style";
-import dynamic from "next/dynamic";
 
-const MessageTable = dynamic(() => import("../../common/table/MessageTable"));
+import { convertAndFormat, getRemainingTime } from "helpers";
+import { MessageTable } from "ui-helpers";
 
 const dataHead = ["Name", "Amount to be undelegated", "Remaining time"];
 

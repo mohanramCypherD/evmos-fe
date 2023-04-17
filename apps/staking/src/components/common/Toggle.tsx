@@ -2,7 +2,7 @@ import {
   useValidatorContext,
   ValidatorStateContext,
 } from "../../internal/common/context/ValidatorStateContext";
-import Switch from "./Switch";
+import { Switch } from "ui-helpers";
 
 const ValidatorToggle = () => {
   const { value, handleSetValue } =

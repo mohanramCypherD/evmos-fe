@@ -2,22 +2,25 @@ import { BigNumber } from "ethers";
 import { Dispatch, SetStateAction, useState } from "react";
 import { useSelector } from "react-redux";
 import { MODAL_NOTIFICATIONS, StoreType } from "evmos-wallet";
+
 import {
   convertFromAtto,
   getReservedForFeeText,
   numericOnly,
   safeSubstraction,
   truncateNumber,
-} from "../../../../internal/common/helpers/style";
-import { BIG_ZERO } from "../../../../internal/common/math/Bignumbers";
+} from "helpers";
+
 import { useEvmosBalance } from "../../../../internal/staking/functionality/hooks/useEvmosBalance";
 import { ModalDelegate } from "../../../../internal/staking/functionality/types";
-import ConfirmButton from "../../../common/ConfirmButton";
-import SmallButton from "../../../common/SmallButton";
 import { useUndelegation } from "../hooks/useUndelegations";
-import { FEE_STAKING_ACTIONS } from "../../../../internal/common/helpers/constants";
-import ErrorMessage from "../../../common/ErrorMessage";
-import ContainerInput from "../../../common/ContainerInput";
+import { FEE_STAKING_ACTIONS } from "constants-helper";
+import {
+  ContainerInput,
+  ErrorMessage,
+  ConfirmButton,
+  SmallButton,
+} from "ui-helpers";
 
 export const Undelegate = ({
   item,
@@ -64,7 +67,9 @@ export const Undelegate = ({
               text="MAX"
               onClick={() => {
                 const val =
-                  item.balance !== "" ? BigNumber.from(item.balance) : BIG_ZERO;
+                  item.balance !== ""
+                    ? BigNumber.from(item.balance)
+                    : BigNumber.from(0);
                 setValue(numericOnly(convertFromAtto(val, 18)));
               }}
             />
@@ -80,7 +85,7 @@ export const Undelegate = ({
           safeSubstraction(
             evmosBalance,
             BigNumber.from(FEE_STAKING_ACTIONS)
-          ).lte(BIG_ZERO) && (
+          ).lte(BigNumber.from(0)) && (
             <ErrorMessage
               text={MODAL_NOTIFICATIONS.ErrorInsufficientFeeSubtext}
             />
@@ -89,7 +94,9 @@ export const Undelegate = ({
           truncateNumber(
             numericOnly(
               convertFromAtto(
-                item.balance !== "" ? BigNumber.from(item.balance) : BIG_ZERO,
+                item.balance !== ""
+                  ? BigNumber.from(item.balance)
+                  : BigNumber.from(0),
                 18
               )
             )

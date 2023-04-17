@@ -1,6 +1,5 @@
-import TopBarContainer from "../../../common/TopBarContainer";
+import { TopBarContainer, TopBarItem } from "ui-helpers";
 import ButtonsActions from "./ButtonsActions";
-import { Container } from "../../../common/topBar/Container";
 import { TopBarProps } from "./types";
 
 const TopBar = ({ topProps }: { topProps: TopBarProps }) => {
@@ -12,8 +11,8 @@ const TopBar = ({ topProps }: { topProps: TopBarProps }) => {
   return (
     <TopBarContainer>
       <>
-        <Container text="Total Assets" value={`$${topProps.totalAssets}`} />
-        <Container
+        <TopBarItem text="Total Assets" value={`$${topProps.totalAssets}`} />
+        <TopBarItem
           text="EVMOS Price"
           value={
             topProps.evmosPrice === undefined

@@ -4,8 +4,7 @@ import { useCallback } from "react";
 import { useSelector } from "react-redux";
 import useAssets from "../../internal/functionality/hooks/useAssets";
 import { StoreType } from "evmos-wallet";
-import BannerMessages from "../common/banners/BannerMessages";
-import Button from "../common/Button";
+import { BannerMessages, Button } from "ui-helpers";
 import MissionContainer from "./MissionContainer";
 
 const Assets = () => {
@@ -45,7 +44,7 @@ const Assets = () => {
               <div className="grid w-full grid-cols-2 ">
                 <div className="flex items-center space-x-5">
                   <Image
-                    src={`/tokens/${item.symbol.toLocaleLowerCase()}.png`}
+                    src={`/mission/tokens/${item.symbol.toLocaleLowerCase()}.png`}
                     alt={item.symbol}
                     width={30}
                     height={30}

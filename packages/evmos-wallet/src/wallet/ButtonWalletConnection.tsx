@@ -18,23 +18,25 @@ import {
   GetProviderFromLocalStorage,
   RemoveProviderFromLocalStorage,
 } from "../internal/wallet/functionality/localstorage";
-import MetamaskIcon from "../common/images/icons/MetamaskIcon";
-import KeplrIcon from "../common/images/icons/KeplrIcon";
-import Modal, { ModalTitle } from "../common/Modal";
-import ViewExplorer from "../common/ViewExplorer";
-import WalletIcon from "../common/images/icons/WalletIcon";
+import {
+  KeplrIcon,
+  MetamaskIcon,
+  WalletIcon,
+  CopyIcon,
+  WalletConnectIcon,
+} from "icons";
+import { Modal, ModalTitle } from "ui-helpers";
+import { ViewExplorer } from "ui-helpers";
 import ButtonWallet from "./ButtonWallet";
 import ContentModalConnect from "./ContentModalConnect";
-import WalletConnectIcon from "../common/images/icons/WalletConnectIcon";
 import {
   useActivateWalletConnect,
   useWalletConnect,
 } from "../internal/wallet/functionality/walletconnect/walletconnect";
-import CopyIcon from "../common/images/icons/CopyIcon";
-import Tooltip from "../common/Tooltip";
+import { Tooltip } from "ui-helpers";
 
 // Components
-import Button from "../common/Button";
+import { Button } from "ui-helpers";
 
 export const ButtonWalletConnection = ({
   walletExtension,

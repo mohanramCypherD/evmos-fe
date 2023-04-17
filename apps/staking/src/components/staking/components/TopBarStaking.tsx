@@ -1,18 +1,18 @@
-import dynamic from "next/dynamic";
 import { useSelector } from "react-redux";
 import { useEpochDay } from "../../../internal/common/api/hooks/useEpochDay";
 import { useEvmosBalance } from "../../../internal/staking/functionality/hooks/useEvmosBalance";
 import { useStakingInfo } from "../../../internal/staking/functionality/hooks/useStakingInfo";
-import { Container } from "../../common/topBar/Container";
-import { Countdown } from "../../common/Countdown";
+import {
+  TopBarItem,
+  Countdown,
+  TopBarContainer,
+  ConfirmButton,
+} from "ui-helpers";
 import { useRewards } from "../modals/hooks/useRewards";
 
 import { StoreType } from "evmos-wallet";
-import { FULL_DAY_MINUS_ONE_SECOND } from "../../../internal/common/helpers/constants";
-import { convertFromAtto } from "../../../internal/common/helpers/style";
-
-const TopBarContainer = dynamic(() => import("../../common/TopBarContainer"));
-const ConfirmButton = dynamic(() => import("../../common/ConfirmButton"));
+import { convertFromAtto } from "helpers";
+import { FULL_DAY_MINUS_ONE_SECOND } from "constants-helper";
 
 const TopBarStaking = () => {
   const value = useSelector((state: StoreType) => state.wallet.value);
@@ -25,23 +25,23 @@ const TopBarStaking = () => {
   return (
     <TopBarContainer>
       <>
-        <Container
+        <TopBarItem
           text="Available"
           value={`${Number(convertFromAtto(evmosBalance)).toFixed(2)} EVMOS`}
         />
-        <Container
+        <TopBarItem
           text="Total Staked"
           value={`${Number(convertFromAtto(totalDelegations)).toFixed(
             2
           )} EVMOS`}
         />
-        <Container
+        <TopBarItem
           text="Total Unstaked"
           value={`${Number(convertFromAtto(totalUndelegations)).toFixed(
             2
           )} EVMOS`}
         />
-        <Container
+        <TopBarItem
           text="Reward Distribution"
           value={
             <Countdown

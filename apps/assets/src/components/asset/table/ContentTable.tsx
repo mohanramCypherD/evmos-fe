@@ -1,13 +1,9 @@
 import { BigNumber } from "ethers";
 import { Dispatch, SetStateAction, useMemo } from "react";
 import { TableDataElement } from "../../../internal/asset/functionality/table/normalizeData";
-import {
-  addAssets,
-  addDolarAssets,
-  formatNumber,
-} from "../../../internal/asset/style/format";
+import { addAssets, addDollarAssets, formatNumber } from "helpers";
 import { EVMOS_SYMBOL } from "evmos-wallet";
-import Accordion from "../../common/Accordion";
+import { Accordion } from "ui-helpers";
 import { RowContent } from "./components/RowContent";
 import { SubRowContent } from "./components/SubRowContent";
 import { ContentTableProps } from "./types";
@@ -133,7 +129,7 @@ const ContentTable = ({
           decimals: e.decimals,
           cosmosBalance: e.cosmosBalance,
         });
-        valueInDollars += addDolarAssets({
+        valueInDollars += addDollarAssets({
           erc20Balance: e.erc20Balance,
           decimals: e.decimals,
           coingeckoPrice: e.coingeckoPrice,

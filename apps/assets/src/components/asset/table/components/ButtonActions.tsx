@@ -1,4 +1,3 @@
-import dynamic from "next/dynamic";
 import Link from "next/link";
 
 import {
@@ -8,10 +7,9 @@ import {
   EVMOS_SYMBOL,
   StoreType,
 } from "evmos-wallet";
-const Button = dynamic(() => import("../../../common/Button"));
-const ExternalLinkIcon = dynamic(
-  () => import("../../../common/images/icons/ExternalLink")
-);
+import { Button } from "ui-helpers";
+import { ExternalLinkIcon } from "icons";
+
 import Withdraw from "../../modals/transactions/Withdraw";
 import Deposit from "../../modals/transactions/Deposit";
 import {

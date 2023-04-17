@@ -1,12 +1,11 @@
 import { BigNumber } from "ethers";
 import Image from "next/image";
-import {
-  convertFromAtto,
-  formatNumber,
-} from "../../../../../internal/asset/style/format";
+
+import { convertFromAtto, formatNumber } from "helpers";
+
 import { Token } from "evmos-wallet";
 import AddTokenMetamask from "../../transactions/AddTokenMetamask";
-import ContainerInput from "../ContainerInput";
+import { ContainerInput } from "ui-helpers";
 
 const ToConvert = ({
   token,

@@ -1,8 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import dynamic from "next/dynamic";
 import Head from "next/head";
 import AssetsTable from "../src/components/asset/table/AssetsTable";
-import Container from "../src/components/Container";
 
 import {
   ethereumClient,
@@ -15,20 +13,16 @@ import {
   StoreType,
   getAllSnackbars,
 } from "evmos-wallet";
-
+import { Footer, Container, TermOfServices } from "ui-helpers";
 import { Provider, useDispatch, useSelector } from "react-redux";
 import Script from "next/script";
 
-const Header = dynamic(() => import("../src/components/Header"));
-const TermOfServices = dynamic(
-  () => import("../src/components/termsOfServices/TermOfServices")
-);
+import { StatefulHeader } from "../src/StatefulHeader";
 function SnackbarsInternal() {
   const valueRedux = useSelector((state: StoreType) => getAllSnackbars(state));
   const dispatch = useDispatch();
   return <Snackbars valueRedux={valueRedux} dispatch={dispatch} />;
 }
-const Footer = dynamic(() => import("../src/components/footer/Footer"));
 export default function Home() {
   const queryClient = new QueryClient();
   return (
@@ -103,7 +97,7 @@ export default function Home() {
               <Container>
                 <>
                   <SnackbarsInternal />
-                  <Header pageName="Assets" />
+                  <StatefulHeader pageName="Assets" />
                   <div className="container mx-auto mb-auto overflow-auto">
                     <AssetsTable />
                   </div>

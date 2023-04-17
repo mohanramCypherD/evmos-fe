@@ -2,23 +2,26 @@ import { BigNumber } from "ethers";
 import { Dispatch, SetStateAction, useState } from "react";
 import { useSelector } from "react-redux";
 import { MODAL_NOTIFICATIONS, StoreType } from "evmos-wallet";
+
 import {
   convertFromAtto,
   getReservedForFeeText,
   numericOnly,
   safeSubstraction,
   truncateNumber,
-} from "../../../../internal/common/helpers/style";
-import { BIG_ZERO } from "../../../../internal/common/math/Bignumbers";
+} from "helpers";
+
 import { useEvmosBalance } from "../../../../internal/staking/functionality/hooks/useEvmosBalance";
 import { ModalDelegate } from "../../../../internal/staking/functionality/types";
-import ConfirmButton from "../../../common/ConfirmButton";
-import SmallButton from "../../../common/SmallButton";
 import ValidatorsDropdown from "../../dropdown/ValidatorsDropdown";
 import { useRedelegation } from "../hooks/useRedelegation";
-import { FEE_STAKING_ACTIONS } from "../../../../internal/common/helpers/constants";
-import ErrorMessage from "../../../common/ErrorMessage";
-import ContainerInput from "../../../common/ContainerInput";
+import { FEE_STAKING_ACTIONS } from "constants-helper";
+import {
+  ContainerInput,
+  ErrorMessage,
+  SmallButton,
+  ConfirmButton,
+} from "ui-helpers";
 
 export const Redelegate = ({
   item,
@@ -68,7 +71,9 @@ export const Redelegate = ({
               text="MAX"
               onClick={() => {
                 const val =
-                  item.balance !== "" ? BigNumber.from(item.balance) : BIG_ZERO;
+                  item.balance !== ""
+                    ? BigNumber.from(item.balance)
+                    : BigNumber.from(0);
                 setValue(numericOnly(convertFromAtto(val, 18)));
               }}
             />
@@ -84,7 +89,7 @@ export const Redelegate = ({
           safeSubstraction(
             evmosBalance,
             BigNumber.from(FEE_STAKING_ACTIONS)
-          ).lte(BIG_ZERO) && (
+          ).lte(BigNumber.from(0)) && (
             <ErrorMessage
               text={MODAL_NOTIFICATIONS.ErrorInsufficientFeeSubtext}
             />
@@ -93,7 +98,9 @@ export const Redelegate = ({
           truncateNumber(
             numericOnly(
               convertFromAtto(
-                item.balance !== "" ? BigNumber.from(item.balance) : BIG_ZERO,
+                item.balance !== ""
+                  ? BigNumber.from(item.balance)
+                  : BigNumber.from(0),
                 18
               )
             )

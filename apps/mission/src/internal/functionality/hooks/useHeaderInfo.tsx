@@ -3,8 +3,7 @@ import { BigNumber } from "ethers";
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { StoreType } from "evmos-wallet";
-import { convertStringFromAtto } from "../../common/helpers/style";
-import { BIG_ZERO } from "../../common/math/Bignumbers";
+import { convertStringFromAtto } from "helpers";
 import { StakingInfoResponse } from "../../types";
 import { getStakingInfo } from "../../fetch";
 
@@ -17,12 +16,12 @@ export const useHeaderInfo = () => {
   });
 
   const totalStaked = useMemo(() => {
-    let total = BIG_ZERO;
+    let total = BigNumber.from(0);
     if (stakingInfo.data !== undefined) {
       const sum = stakingInfo.data.delegations.reduce((prev, curr) => {
         return prev.add(BigNumber.from(curr?.balance.amount));
       }, total);
-      total = sum ? sum : BIG_ZERO;
+      total = sum ? sum : BigNumber.from(0);
 
       return total;
     }
