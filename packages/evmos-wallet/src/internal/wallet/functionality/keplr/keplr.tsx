@@ -72,7 +72,33 @@ export class Keplr {
     RemoveProviderFromLocalStorage();
   }
 
+  async getKeplr() {
+    // Promise<Keplr | undefined>
+    if (window.keplr) {
+      return window.keplr;
+    }
+
+    if (document.readyState === "complete") {
+      return window.keplr;
+    }
+
+    return new Promise((resolve) => {
+      const documentStateChange = (event: Event) => {
+        if (
+          event.target &&
+          (event.target as Document).readyState === "complete"
+        ) {
+          resolve(window.keplr);
+          document.removeEventListener("readystatechange", documentStateChange);
+        }
+      };
+
+      document.addEventListener("readystatechange", documentStateChange);
+    });
+  }
+
   async connectHandler() {
+    await this.getKeplr();
     if (!window.keplr) {
       this.reset();
       // ExtensionNotFound
