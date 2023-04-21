@@ -1,9 +1,13 @@
 {
-  "private": true,
+  "name": "evmos-apps",
+  "version": "0.0.1",
+  "license": "SEE LICENSE IN LICENSE",
+  "author": "Tharsis Labs Ltd.(Evmos)",
   "workspaces": [
     "apps/*",
     "packages/*"
   ],
+  "private": true,
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
