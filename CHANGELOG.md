@@ -37,6 +37,7 @@ Ref: https://keepachangelog.com/en/1.0.0/
 ## Unreleased
 - (bug) #fse-400 | root config | Updating the dev workflow to avoid errors when running `yarn dev` 
 
+- (ci) #fse-413 | (apps)/_ 1.0.x | Adding CI/CD pipeline for apps
 ...
 
 ## 1.0.0 - 2023-04-28
