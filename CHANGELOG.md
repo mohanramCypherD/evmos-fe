@@ -36,10 +36,11 @@ Ref: https://keepachangelog.com/en/1.0.0/
 
 ## Unreleased
 - (bug) #fse-400 | root config | Updating the dev workflow to avoid errors when running `yarn dev` 
-
+- (bug fixes) #fse-481 | evmos-wallet 1.0.1 | Show connected snackbar only if the user clicks on Connect Wallet
 - (ci) #fse-413 | (apps)/_ 1.0.x | Adding CI/CD pipeline for apps
 ...
 
+
 ## 1.0.0 - 2023-04-28
 
-- (chore) #fse-306 | (apps|packages)/\* 1.0.0 | Adding changelog file, updating Licenses and versions in each packages
+- (chore) #fse-306 | apps/_ 1.0.0 packages/_ 1.0.0 | Adding changelog file, updating Licenses and versions in each packages
