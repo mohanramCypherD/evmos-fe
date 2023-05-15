@@ -36,6 +36,8 @@ Ref: https://keepachangelog.com/en/1.0.0/
 
 ## UNRELEASED
 
+- (refactor) #fse-514 | github actions | Removing unused folder
+
 ## 1.0.3 - 2023-05-10
 - (chore) #fse-142 | evmos-wallet 1.0.6 | Env vars prefixes
 
