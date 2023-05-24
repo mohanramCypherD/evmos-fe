@@ -16,13 +16,21 @@ import {
 } from "../../../../wallet/redux/WalletSlice";
 import { truncateAddress } from "../../style/format";
 import { WALLECT_CONNECT_KEY } from "../wallet";
-import { SaveProviderToLocalStorate } from "../localstorage";
+import {
+  SaveProviderToLocalStorate,
+  SaveProviderWalletConnectToLocalStorage,
+} from "../localstorage";
 import { ethToEvmos } from "@evmos/address-converter";
 import { queryPubKey } from "../pubkey";
 import { EVMOS_GRPC_URL } from "../networkConfig";
 import type { Logger } from "ethers/lib/utils.js";
 import { generatePubkeyFromSignatureWalletConnect } from "./walletconnectHelpers";
 import { SNACKBAR_CONTENT_TYPES } from "../../../../notification/types";
+import {
+  SUCCESSFUL_WALLET_CONNECTION,
+  UNSUCCESSFUL_WALLET_CONNECTION,
+  useTracker,
+} from "tracker";
 
 // Ethers does not have an error type so we can use this for casting
 // https://github.com/ethers-io/ethers.js/blob/main/packages/logger/src.ts/index.ts#L268
@@ -33,7 +41,7 @@ export type EthersError = Error & {
 
 export function useWalletConnect(reduxStore: ReduxWalletStore) {
   const { open } = useWeb3Modal();
-  const { address } = useAccount();
+  const { address, connector } = useAccount();
 
   async function connect() {
     await open({ route: "ConnectWallet" });
@@ -55,6 +63,12 @@ export function useWalletConnect(reduxStore: ReduxWalletStore) {
       SaveProviderToLocalStorate(WALLECT_CONNECT_KEY);
     }
   }, [address]);
+
+  useEffect(() => {
+    if (connector) {
+      SaveProviderWalletConnectToLocalStorage(connector.name);
+    }
+  }, [connector]);
 
   return { connect, address };
 }
@@ -78,11 +92,17 @@ export function useActivateWalletConnect(
     return pubkey;
   }
 
+  const { handlePreClickAction: trackSuccessfulWalletConnection } = useTracker(
+    SUCCESSFUL_WALLET_CONNECTION
+  );
+
+  const { handlePreClickAction: trackUnsuccessfulWalletConnection } =
+    useTracker(UNSUCCESSFUL_WALLET_CONNECTION);
+
   useEffect(() => {
     async function execute() {
       if (!isDisconnected && extensionName !== WALLECT_CONNECT_KEY) {
         disconnect();
-        return;
       }
 
       if (address) {
@@ -99,7 +119,11 @@ export function useActivateWalletConnect(
             store,
             notificationsEnabled
           );
-          return;
+
+          trackUnsuccessfulWalletConnection({
+            message:
+              "You must sign the generate pubkey message to use the dashboard",
+          });
         }
 
         store.dispatch(
@@ -123,6 +147,8 @@ export function useActivateWalletConnect(
           store,
           notificationsEnabled
         );
+
+        trackSuccessfulWalletConnection();
       }
     }
 

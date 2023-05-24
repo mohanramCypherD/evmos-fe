@@ -95,3 +95,18 @@ export const UNSUCCESSFUL_TX_CLAIM_REWARDS =
 export const DISABLE_TRACKER_LOCALSTORAGE = "disableTracker";
 export const DISABLE_MIXPANEL_TRACKER = "Disable mixpanel tracker";
 export const ENABLE_MIXPANEL_TRACKER = "Enable mixpanel tracker";
+
+export const SUCCESSFUL_WALLET_CONNECTION = "Successful wallet connection";
+export const UNSUCCESSFUL_WALLET_CONNECTION = "Unsuccessful wallet connection";
+
+export const CLICK_BUTTON_CONVERT_AXELAR_BASED = "Convert Axelar-based token";
+export const CLICK_BUTTON_CONFIRM_CONVERT_AXELAR_BASED_TX =
+  "Confirm Convert Transaction for Axelar-based token";
+export const SUCCESSFUL_CONVERT_AXELAR_BASED_TX =
+  "Successful convert for Axelar-based token";
+export const UNSUCCESSFUL_CONVERT_AXELAR_BASED_TX =
+  "Unsuccessful convert for Axelar-based token";
+
+export const CLICK_BUTTON_CONFIRM_WRAP_TX = "Confirm wrap transaction";
+export const SUCCESSFUL_WRAP_TX = "Successful wrap transaction";
+export const UNSUCCESSFUL_WRAP_TX = "Unsuccessful wrap transaction";

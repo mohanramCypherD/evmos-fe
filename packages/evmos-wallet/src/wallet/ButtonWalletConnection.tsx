@@ -19,8 +19,10 @@ import { Keplr } from "../internal/wallet/functionality/keplr/keplr";
 import { disconnectWallets } from "../internal/wallet/functionality/disconnect";
 import {
   GetProviderFromLocalStorage,
+  GetProviderWalletConnectFromLocalStorage,
   GetWalletFromLocalStorage,
   RemoveProviderFromLocalStorage,
+  RemoveProviderWalletConnectToLocalStorage,
   RemoveWalletFromLocalStorage,
   SaveWalletToLocalStorage,
 } from "../internal/wallet/functionality/localstorage";
@@ -45,6 +47,8 @@ import {
   CLICK_WC_DISCONNECT_WALLET_BUTTON,
   CLICK_WC_CONNECTED_WITH,
   SWITCH_BETWEEN_WALLETS,
+  SUCCESSFUL_WALLET_CONNECTION,
+  UNSUCCESSFUL_WALLET_CONNECTION,
   useTracker,
 } from "tracker";
 // Components
@@ -116,6 +120,12 @@ export const ButtonWalletConnection = ({
     SWITCH_BETWEEN_WALLETS
   );
 
+  const { handlePreClickAction: trackSuccessfulWalletConnection } = useTracker(
+    SUCCESSFUL_WALLET_CONNECTION
+  );
+
+  const { handlePreClickAction: trackUnsuccessfulWalletConnection } =
+    useTracker(UNSUCCESSFUL_WALLET_CONNECTION);
   useEffect(() => {
     function trackWallet() {
       const walletLocalStorage = GetWalletFromLocalStorage();
@@ -236,6 +246,7 @@ export const ButtonWalletConnection = ({
                 });
                 RemoveWalletFromLocalStorage();
                 RemoveProviderFromLocalStorage();
+                RemoveProviderWalletConnectToLocalStorage();
                 disconnectWallets(dispatch);
                 setShow(false);
                 setIsCopied(false);
@@ -271,10 +282,17 @@ export const ButtonWalletConnection = ({
                 setShow(false);
                 disconnectWallets(dispatch);
                 const keplr = new Keplr(store);
-                await keplr.connect();
+                const resultConnect = await keplr.connect();
+                if (resultConnect.result) {
+                  trackSuccessfulWalletConnection();
+                } else {
+                  trackUnsuccessfulWalletConnection({
+                    message: resultConnect.message,
+                  });
+                }
                 trackConnectedWithWallet({
                   wallet: GetWalletFromLocalStorage(),
-                  provider: GetProviderFromLocalStorage(),
+                  provider: KEPLR_KEY,
                 });
               }}
             >
@@ -289,10 +307,17 @@ export const ButtonWalletConnection = ({
                 setShow(false);
                 disconnectWallets(dispatch);
                 const metamask = new Metamask(store);
-                await metamask.connect();
+                const resultConnect = await metamask.connect();
+                if (resultConnect.result) {
+                  trackSuccessfulWalletConnection();
+                } else {
+                  trackUnsuccessfulWalletConnection({
+                    message: resultConnect.message,
+                  });
+                }
                 trackConnectedWithWallet({
                   wallet: GetWalletFromLocalStorage(),
-                  provider: GetProviderFromLocalStorage(),
+                  provider: METAMASK_KEY,
                 });
               }}
             >
@@ -306,10 +331,10 @@ export const ButtonWalletConnection = ({
               onClick={async () => {
                 setShow(false);
                 await useWC.connect();
-                // TODO: how do I pass the provider?
                 trackConnectedWithWallet({
                   wallet: GetWalletFromLocalStorage(),
-                  provider: GetProviderFromLocalStorage(),
+                  provider: WALLECT_CONNECT_KEY,
+                  walletSelected: GetProviderWalletConnectFromLocalStorage(),
                 });
               }}
             >
