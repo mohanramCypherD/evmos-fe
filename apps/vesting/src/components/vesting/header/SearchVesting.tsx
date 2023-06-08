@@ -6,12 +6,12 @@ import { ChangeEvent, KeyboardEvent, useState } from "react";
 import { Search } from "ui-helpers";
 export const SearchVesting = () => {
   const handleOnClick = () => {
-    //   redirects to vesting account or to 404
+    // TODO: redirects to vesting account or to 404
   };
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
-      //   redirects to vesting account or to 404
+      // TODO:redirects to vesting account or to 404
     }
   };
   const [value, setValue] = useState("");

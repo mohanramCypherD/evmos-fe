@@ -3,7 +3,7 @@ import { SearchVesting } from "./SearchVesting";
 
 export const Header = () => {
   const handleConfirmClick = () => {
-    //  open modal for creating vesting account
+    // TODO: open modal for creating vesting account
   };
 
   return (
