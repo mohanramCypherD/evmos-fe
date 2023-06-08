@@ -7,6 +7,9 @@ const Content = () => {
   return (
     <>
       <Header />
+      <p className="mt-8 flex justify-center text-white">
+        A list of your vesting accounts will appear here in the next version
+      </p>
     </>
   );
 };
