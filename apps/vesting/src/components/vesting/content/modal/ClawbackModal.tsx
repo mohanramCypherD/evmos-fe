@@ -1,6 +1,6 @@
 import { ConfirmButton, ModalTitle } from "ui-helpers";
 import { ItemModal } from "./ItemModal";
-
+import { ExclamationIcon } from "icons";
 const dummyProps = {
   // eslint-disable-next-line no-secrets/no-secrets
   address: "evmosc5ljcjw341ls6f7xpfvakm2amg962y84z3kell8ks",
@@ -24,16 +24,18 @@ export const ClawbackModal = () => {
         title="Total Vesting Tokens"
         description={`${dummyProps.totalTokens} EVMOS `}
       />
-
       <ItemModal
         title="Available for Clawback"
         description={`${dummyProps.availableClawback} EVMOS `}
       />
-
       <div>
-        <span className="text-lg font-bold">CAUTION:</span> Clawback cannot be
-        undone! Please make sure you want to do this action.
+        <div className="flex items-center space-x-1 ">
+          <ExclamationIcon className="text-red" />
+          <span className="text-lg font-bold">CAUTION</span>
+        </div>
+        Clawback cannot be undone! Please make sure you want to do this action.
       </div>
+
       <ConfirmButton text="Clawback" onClick={handleOnClick} />
     </div>
   );
