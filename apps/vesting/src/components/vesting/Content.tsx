@@ -9,7 +9,7 @@ import { AccountDetails } from "./content/AccountDetails";
 
 const Content = () => {
   const router = useRouter();
-  const { id } = router.query;
+  const { account } = router.query;
 
   // TODO: use it with the right information
   const dummyProps = {
@@ -23,11 +23,11 @@ const Content = () => {
 
   return (
     <>
-      {id !== undefined && <Navigation href="/" text={NAV_TO_VESTING} />}
+      {account !== undefined && <Navigation href="/" text={NAV_TO_VESTING} />}
       <Header />
 
       <div className="mt-8 w-full font-[IBM] text-pearl">
-        {id === undefined ? (
+        {account === undefined ? (
           <p className="flex justify-center ">
             A list of your vesting accounts will appear here in the next version
           </p>
