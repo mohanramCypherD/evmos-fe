@@ -17,7 +17,6 @@ export const AccountDetails = ({ props }: { props: VestingProps }) => {
   const handleClawbackClick = () => {
     setShowModal(true);
     setModalContent(<ClawbackModal />);
-    // TODO: handle clawback action
   };
   const value = useSelector((state: StoreType) => state.wallet.value);
   return !props.isVesting ? (
