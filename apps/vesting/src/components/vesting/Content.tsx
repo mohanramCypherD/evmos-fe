@@ -18,7 +18,7 @@ const Content = () => {
     accountAddress: "evmosc5ljcjw341ls6f7xpfvakm2amg962y84z3kell8ks",
     // eslint-disable-next-line no-secrets/no-secrets
     funderAddress: "evmos1cnr73vd4xcjm83xs8275twu06w3xqr6n7g5cud",
-    isVesting: false,
+    isVesting: true,
   };
 
   return (
