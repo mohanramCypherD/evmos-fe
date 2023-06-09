@@ -1,6 +1,8 @@
 import { useSelector } from "react-redux";
-import { ConfirmButton, ViewExplorer } from "ui-helpers";
+import { ConfirmButton, Modal, ViewExplorer } from "ui-helpers";
 import { StoreType } from "evmos-wallet";
+import { useState } from "react";
+import { ClawbackModal } from "./modal/ClawbackModal";
 
 interface VestingProps {
   accountName: string;
@@ -10,7 +12,11 @@ interface VestingProps {
 }
 
 export const AccountDetails = ({ props }: { props: VestingProps }) => {
+  const [showModal, setShowModal] = useState(false);
+  const [modalContent, setModalContent] = useState<JSX.Element>(<></>);
   const handleClawbackClick = () => {
+    setShowModal(true);
+    setModalContent(<ClawbackModal />);
     // TODO: handle clawback action
   };
   const value = useSelector((state: StoreType) => state.wallet.value);
@@ -48,6 +54,14 @@ export const AccountDetails = ({ props }: { props: VestingProps }) => {
           />
         </div>
       </div>
+      <Modal
+        show={showModal}
+        onClose={() => {
+          setShowModal(false);
+        }}
+      >
+        {modalContent}
+      </Modal>
     </section>
   );
 };
