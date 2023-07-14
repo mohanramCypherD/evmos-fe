@@ -19,11 +19,11 @@ const Content = () => {
 
   useEffect(() => {
     window.Cypher({
-      address: "", // the wallet address of the user connected
+      address: "", // the wallet address of the user connected ( to be filled )
       targetChainIdHex: "0x2329", // Evmos ChainID
       requiredTokenContractAddress:
         "0x93581991f68dbae1ea105233b67f7fa0d6bdee7b", // Evmos token Contract Address
-      appId: "", // AppId (uuid) received
+      appId: "", // AppId (uuid) received (to be filled)
       parentComponentId: "cypher-onboading-sdk", // Id of the <div> tag inside which the widget is needed
     });
 
